@@ -51,3 +51,24 @@
   html.deck :focus-visible { outline: 2px solid #7ee787; outline-offset: 2px; }
 }
 @media (prefers-reduced-motion: reduce) { html.deck .progress i, html.deck .toast { transition: none; } }
+/* Console mock-ups: loading state while a "search" runs */
+@media screen {
+  html.deck .app .app-res { overflow: auto; scrollbar-width: thin; }
+  html.deck .app-in { cursor: text; }
+  html.deck .app-in:focus { outline: 2px solid #7ee787; outline-offset: 1px; }
+  .app { position: relative; }
+  .app.loading .app-res { opacity: .35; transition: opacity .15s; }
+  .app.loading::after { content: ""; position: absolute; left: 0; right: 0; top: var(--load-top, 0); height: 3px;
+    background: linear-gradient(90deg, transparent, var(--app-accent, #58a6ff), transparent); background-size: 40% 100%; background-repeat: no-repeat;
+    animation: app-load .6s linear infinite; }
+  @keyframes app-load { from { background-position: -40% 0; } to { background-position: 140% 0; } }
+  .app-empty { padding: 16px; font-size: 13px; }
+  .app-empty p { margin-bottom: 8px; }
+  .app-empty button { display: block; max-width: 100%; margin: 6px 0; padding: 6px 10px; text-align: left; cursor: pointer; border-radius: 4px;
+    font: 12px "Fira Code", monospace; border: 1px solid currentColor; background: transparent; color: inherit; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+}
+@media (prefers-reduced-motion: reduce) { .app.loading::after { animation: none; } }
+
+/* Last in the cascade on purpose: a later `font:` shorthand would turn ligatures back on, and
+   ligatures show ">=" and "==" as single glyphs that students cannot type. */
+html code, html .mono, html .term, html .term *, html .app-in { font-variant-ligatures: none !important; font-feature-settings: "liga" 0, "calt" 0 !important; }

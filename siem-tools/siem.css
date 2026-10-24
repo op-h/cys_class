@@ -1,0 +1,172 @@
+/* ---------- Lecture 02 additions ---------- */
+.topic h2 { font-family: "Noto Sans", sans-serif; font-size: 40px; letter-spacing: -.01em; line-height: 1.1; }
+.topic .desc { font-size: 16.5px; }
+.topic .flags td:first-child { white-space: normal; width: 34%; }
+.topic .flags td { padding: 4px 8px 4px 0; font-size: 13.5px; }
+.topic .use { font-size: 14px; }
+.topic .screen { font-size: 12.5px; line-height: 1.5; }
+.pipe { list-style: none; display: grid; grid-template-columns: repeat(6, 1fr); gap: 14px; margin-top: 18px; counter-reset: s; }
+.pipe li { position: relative; background: var(--panel); border: 1px solid var(--line); border-top: 3px solid var(--c); border-radius: 10px; padding: 16px 14px; min-height: 150px; counter-increment: s; }
+.pipe li::before { content: counter(s, decimal-leading-zero); display: block; color: var(--c); font: 600 13px "Fira Code", monospace; margin-bottom: 8px; }
+.pipe li:not(:last-child)::after { content: "→"; position: absolute; right: -14px; top: 50%; transform: translate(50%, -50%); color: var(--c); font-size: 20px; }
+.pipe b { display: block; font-size: 17px; margin-bottom: 6px; }
+.pipe span { color: var(--mut); font-size: 13.5px; line-height: 1.45; }
+.archmap { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-top: 34px; }
+.archmap div { border: 1px dashed var(--line); border-radius: 8px; padding: 12px 14px; }
+.archmap b { display: block; color: var(--c); font-size: 15px; } .archmap span { font: 12.5px "Fira Code", monospace; color: #c9d1d9; }
+.cmp { width: 100%; border-collapse: collapse; font-size: 15px; margin-top: 6px; }
+.cmp th { text-align: left; color: var(--c); font: 600 12px "Fira Code", monospace; text-transform: uppercase; letter-spacing: .08em; padding: 8px 10px; border-bottom: 2px solid var(--line); }
+.cmp td { padding: 10px; border-bottom: 1px solid #21262d; color: #c9d1d9; vertical-align: top; }
+.cmp td b { color: var(--fg); }
+.note { margin-top: 18px; color: var(--mut); font-size: 15px; }
+
+/* ---------- Full-width console slides ---------- */
+.appslide { padding: 34px 56px 60px; display: flex; flex-direction: column; gap: 12px; }
+.appslide footer { left: 56px; right: 56px; bottom: 18px; }
+.ap-head { display: grid; grid-template-columns: 1fr 500px; gap: 28px; align-items: start; flex: none; }
+.ap-head .kicker { margin-bottom: 8px; }
+.ap-head h2 { font-family: "Noto Sans", sans-serif; font-size: 30px; line-height: 1.1; margin: 0 0 6px; color: var(--c); }
+.ap-head .desc { font-size: 14px; line-height: 1.45; color: #c9d1d9; }
+.ap-pts { display: grid; grid-template-columns: 1fr 1fr; gap: 5px 16px; font-size: 11.5px; line-height: 1.35; padding-top: 4px; }
+.ap-pts div { display: flex; flex-direction: column; border-left: 2px solid color-mix(in srgb, var(--c) 50%, transparent); padding-left: 8px; }
+.ap-pts dt code { color: var(--c); background: none; padding: 0; font-size: 11.5px; }
+.ap-pts dd { color: #aeb8c2; }
+.ap-foot { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 14px; flex: none; align-items: start; }
+.ap-foot > * { min-width: 0; }
+.ap-foot .task { padding: 9px 14px; font-size: 13.5px; }
+.ap-tip { background: var(--panel); border-left: 3px solid var(--c); border-radius: 6px; padding: 9px 14px; font-size: 13px; line-height: 1.45; color: #c9d1d9; }
+.ap-tip b { color: var(--c); font-size: 11px; text-transform: uppercase; letter-spacing: .08em; margin-right: 6px; }
+html.deck .ap-foot .chips { margin-top: 8px; }
+html.deck .ap-foot .chips { flex-wrap: wrap; max-height: 62px; }
+html.deck .ap-foot .chips button { font-size: 11.5px; min-height: 26px; padding: 3px 8px; max-width: 100%; flex: 0 1 auto; }
+
+/* Shared console skeleton */
+.app { flex: 1; min-height: 0; display: flex; flex-direction: column; border-radius: 8px; overflow: hidden;
+  box-shadow: 0 18px 50px rgba(0,0,0,.5); font: 12px/1.4 "Noto Sans", "Cantarell", sans-serif; color: #222; background: #fff; }
+.app > * { flex: none; }
+.app .app-res { flex: 1; min-height: 0; overflow: hidden; background: #fff; }
+.app-in { flex: 1; min-width: 0; font: 12.5px/1.5 "Fira Code", "DejaVu Sans Mono", monospace; white-space: pre-wrap; word-break: break-word; color: #1a1a1a; padding: 6px 10px; background: #fff; }
+.app button { font: inherit; cursor: pointer; }
+.mock { font: 10px "Fira Code", monospace; padding: 1px 6px; border: 1px solid currentColor; border-radius: 3px; opacity: .55; margin-left: 12px; text-transform: uppercase; letter-spacing: .06em; }
+.app-t { width: 100%; border-collapse: collapse; }
+.app-t th { text-align: left; font-weight: 600; white-space: nowrap; }
+.app-t th, .app-t td { padding: 5px 10px; vertical-align: top; }
+.hist { display: flex; align-items: flex-end; gap: 3px; height: 44px; padding: 6px 12px 0; border-bottom: 1px solid #e3e6e8; }
+.hist i { flex: 1; height: var(--h); min-height: 1px; background: var(--app-accent); border-radius: 1px 1px 0 0; }
+.res-split { display: grid; grid-template-columns: 165px 1fr; min-height: 100%; }
+.fields { border-right: 1px solid #e1e4e6; padding: 6px 10px; font-size: 11.5px; background: #fafbfb; }
+.fields h5 { font-size: 10px; letter-spacing: .06em; color: #5c6773; margin: 6px 0 3px; }
+.fields div { display: flex; justify-content: space-between; color: #1a5fb4; padding: 1px 0; }
+.fields b { color: #5c6773; font-weight: 400; }
+
+/* Splunk Search & Reporting (light theme) */
+.app--splunk { --app-accent: #5cc05c; --load-top: 133px; background: #f2f4f5; }
+.sp-bar { display: flex; align-items: center; gap: 16px; background: #000; color: #c3cbd4; padding: 0 14px; height: 30px; font-size: 11.5px; }
+.sp-logo { color: #fff; font: 700 15px "Noto Sans", sans-serif; letter-spacing: -.02em; }
+.sp-logo span { color: #65a637; margin-right: 1px; } .sp-r { margin-left: auto; }
+.sp-nav { display: flex; align-items: center; gap: 18px; background: #3c444d; color: #fff; height: 30px; padding: 0 14px; font-size: 12px; }
+.sp-nav .on { box-shadow: inset 0 -3px 0 #65a637; height: 100%; display: flex; align-items: center; }
+.sp-nav b { margin-left: auto; font-weight: 600; }
+.sp-main { position: relative; display: flex; flex-direction: column; flex: 1; min-height: 0; padding: 6px 14px 0; }
+.sp-main > * { flex: none; }
+.sp-head { display: flex; justify-content: space-between; align-items: baseline; }
+.sp-head h4 { font-size: 17px; font-weight: 400; color: #333; } .sp-head span { color: #1a5fb4; font-size: 11.5px; }
+.sp-q { display: flex; border: 1px solid #c3cbd4; border-radius: 3px; background: #fff; margin-top: 6px; max-height: 66px; overflow: hidden; }
+.sp-time { border-left: 1px solid #c3cbd4; padding: 6px 12px; color: #333; white-space: nowrap; font-size: 12px; }
+.sp-q .app-go { background: #5cc05c; color: #fff; border: 0; width: 44px; display: grid; place-items: center; }
+.sp-status { display: flex; justify-content: space-between; color: #333; font-size: 11.5px; padding: 6px 2px; }
+.sp-status .app-meta { color: #333; } .sp-status span { color: #5c6773; }
+.sp-tabs { display: flex; gap: 22px; border-bottom: 1px solid #c3cbd4; font-size: 12.5px; color: #1a5fb4; }
+.sp-tabs span { padding: 5px 0; } .sp-tabs .on { color: #333; box-shadow: inset 0 -3px 0 #1a5fb4; font-weight: 600; }
+.app--splunk .app-res { background: #fff; margin: 0 -14px; }
+.app--splunk .app-t th { background: #f2f4f5; color: #333; border-bottom: 1px solid #c3cbd4; font-size: 11.5px; }
+.app--splunk .app-t td { border-bottom: 1px solid #eef0f1; font-size: 12px; }
+.app--splunk .app-t tbody tr:nth-child(even) td { background: #f7f8fa; }
+.app--splunk .res-split .app-t td:nth-child(2) { color: #333; white-space: pre-line; width: 92px; font-size: 11px; }
+.app--splunk .res-split .app-t td:nth-child(3) { font: 11.5px/1.5 "Fira Code", monospace; white-space: pre-line; }
+.app--splunk .res-split .app-t td:first-child { color: #5c6773; width: 14px; }
+.sp-split { display: flex; flex: 1; min-height: 0; margin: 0 -14px; background: #fff; }
+.sp-split .app-res { margin: 0; }
+.sp-alert { flex: none; width: 320px; margin: 6px 10px 0; align-self: flex-start; background: #fff; border: 1px solid #c3cbd4; border-radius: 4px;
+  box-shadow: 0 6px 20px rgba(0,0,0,.18); font-size: 11px; }
+.sp-alert h6 { font-size: 13px; font-weight: 400; padding: 6px 12px; border-bottom: 1px solid #e1e4e6; }
+.sp-alert dl { display: grid; grid-template-columns: 112px 1fr; gap: 3px 10px; padding: 6px 12px; }
+.sp-alert dt { color: #5c6773; text-align: right; } .sp-alert dd { color: #222; }
+.sp-alert code { background: #f2f4f5; color: #222; font-size: 11px; }
+.sp-alert p { display: flex; justify-content: flex-end; gap: 10px; padding: 6px 12px; border-top: 1px solid #e1e4e6; }
+.sp-alert p span { padding: 3px 12px; border: 1px solid #c3cbd4; border-radius: 3px; } .sp-alert p b { padding: 3px 14px; background: #5cc05c; color: #fff; border-radius: 3px; }
+
+/* Wazuh dashboard (OpenSearch Dashboards light theme) */
+.app--wazuh { --app-accent: #3595f9; --load-top: 104px; background: #f7f8fc; }
+.wz-bar { display: flex; align-items: center; gap: 14px; height: 36px; padding: 0 14px; background: #fff; border-bottom: 1px solid #d3dae6; color: #343741; }
+.wz-burger { font-size: 15px; color: #69707d; }
+.wz-logo { font: 700 17px "Noto Sans", sans-serif; color: #343741; letter-spacing: -.02em; } .wz-logo span { color: #3595f9; }
+.wz-crumb { color: #006bb4; font-size: 12.5px; padding-left: 14px; border-left: 1px solid #d3dae6; } .wz-r { margin-left: auto; color: #69707d; }
+.wz-tabs { display: flex; gap: 22px; padding: 0 16px; background: #fff; border-bottom: 1px solid #d3dae6; font-size: 12.5px; color: #343741; }
+.wz-tabs span { padding: 7px 0; } .wz-tabs .on { color: #006bb4; box-shadow: inset 0 -2px 0 #006bb4; font-weight: 600; }
+.wz-agent { margin-left: auto; color: #006bb4; }
+.wz-q { display: flex; align-items: stretch; gap: 8px; padding: 8px 16px; }
+.wz-q .app-mode { display: grid; place-items: center; padding: 0 10px; background: #e9edf3; border: 1px solid #d3dae6; border-radius: 4px 0 0 4px; color: #006bb4; font-weight: 600; margin-right: -8px; }
+.wz-q .app-in { border: 1px solid #d3dae6; border-radius: 0 4px 4px 0; max-height: 52px; overflow: hidden; }
+.wz-time { display: grid; place-items: center; padding: 0 12px; border: 1px solid #d3dae6; border-radius: 4px; background: #fff; color: #343741; white-space: nowrap; }
+.wz-q .app-go { background: #006bb4; color: #fff; border: 0; border-radius: 4px; padding: 0 14px; font-weight: 600; }
+.wz-hits { display: flex; justify-content: space-between; padding: 0 16px 6px; color: #343741; }
+.wz-hits .app-meta { font-weight: 700; font-size: 13px; } .wz-hits span { color: #69707d; }
+.app--wazuh .app-res { margin: 0 16px; border: 1px solid #d3dae6; border-bottom: 0; border-radius: 4px 4px 0 0; }
+.app--wazuh .app-t th { color: #343741; border-bottom: 1px solid #d3dae6; font-size: 11.5px; }
+.app--wazuh .app-t td { border-bottom: 1px solid #eef2f7; font-size: 11.5px; color: #343741; }
+.app--wazuh .app-t td:nth-child(4), .app--wazuh .app-t td:nth-child(5) { color: #006bb4; }
+
+/* Kibana Discover (light theme) */
+.app--kibana { --app-accent: #54b399; --load-top: 112px; background: #fff; }
+.kb-bar { display: flex; align-items: center; gap: 16px; height: 34px; padding: 0 14px; background: #fff; border-bottom: 1px solid #d3dae6; color: #343741; }
+.kb-logo { font: 700 16px "Noto Sans", sans-serif; }
+.kb-search { flex: 0 1 360px; padding: 3px 10px; border: 1px solid #d3dae6; border-radius: 4px; color: #98a2b3; background: #fbfcfd; font-size: 11.5px; }
+.kb-r { margin-left: auto; color: #69707d; }
+.kb-crumbs { display: flex; gap: 6px; height: 32px; align-items: center; padding: 0 14px; border-bottom: 1px solid #d3dae6; font-weight: 600; color: #343741; }
+.kb-crumbs span { margin-left: auto; font-weight: 400; color: #0077cc; }
+.kb-q { display: flex; align-items: stretch; gap: 6px; padding: 8px 14px; }
+.kb-dv { display: grid; place-items: center; padding: 0 10px; border: 1px solid #d3dae6; border-radius: 4px; background: #f1f4fa; color: #0077cc; font-weight: 600; white-space: nowrap; }
+.kb-q .app-in { border: 1px solid #d3dae6; border-radius: 4px; max-height: 52px; overflow: hidden; }
+.kb-q .app-mode { display: grid; place-items: center; padding: 0 8px; color: #0077cc; font-weight: 600; white-space: nowrap; }
+.kb-time { display: grid; place-items: center; padding: 0 10px; border: 1px solid #d3dae6; border-radius: 4px; white-space: nowrap; color: #343741; }
+.kb-q .app-go { background: #0077cc; color: #fff; border: 0; border-radius: 4px; padding: 0 14px; font-weight: 600; }
+.kb-hits { padding: 0 14px 4px; } .kb-hits .app-meta { font-weight: 700; font-size: 13px; color: #343741; }
+.app--kibana .app-res { margin: 0 14px; }
+.app--kibana .app-t th { color: #343741; border-bottom: 1px solid #d3dae6; font-size: 11.5px; }
+.app--kibana .app-t td { border-bottom: 1px solid #eef2f7; font: 11.5px "Fira Code", monospace; color: #343741; }
+
+/* Microsoft Sentinel / Log Analytics (Azure portal light theme) */
+.app--sentinel { --app-accent: #0078d4; --load-top: 190px; background: #fff; color: #323130; }
+.az-bar { display: flex; align-items: center; gap: 18px; height: 32px; padding: 0 14px; background: #1b1a19; color: #fff; font-size: 12.5px; }
+.az-search { flex: 0 1 380px; background: #3b3a39; color: #c8c6c4; padding: 3px 10px; border-radius: 2px; font-size: 11.5px; } .az-r { margin-left: auto; }
+.az-crumbs { padding: 6px 16px 0; color: #0078d4; font-size: 11.5px; }
+.az-title { display: flex; flex-direction: column; padding: 2px 16px 6px; }
+.az-title b { font: 600 17px "Noto Sans", sans-serif; } .az-title span { color: #605e5c; font-size: 11px; }
+.az-tools { display: flex; align-items: center; gap: 16px; padding: 4px 16px; border-top: 1px solid #edebe9; border-bottom: 1px solid #edebe9; font-size: 12px; color: #323130; }
+.az-tools .app-go { background: #0078d4; color: #fff; border: 0; border-radius: 2px; padding: 4px 14px; font-weight: 600; }
+.az-editor { display: flex; border-bottom: 1px solid #edebe9; max-height: 112px; overflow: hidden; flex: none; }
+.az-gutter { padding: 6px 8px; text-align: right; color: #a19f9d; font: 12.5px/1.5 "Fira Code", monospace; background: #faf9f8; border-right: 1px solid #edebe9; min-width: 32px; }
+.az-tabs { display: flex; align-items: center; gap: 20px; padding: 0 16px; border-bottom: 1px solid #edebe9; font-size: 12.5px; }
+.az-tabs span { padding: 6px 0; } .az-tabs .on { box-shadow: inset 0 -2px 0 #0078d4; font-weight: 600; }
+.az-tabs .app-meta { margin-left: auto; color: #107c10; font-size: 11.5px; }
+.app--sentinel .app-res { padding: 0 6px; }
+.app--sentinel .app-t th { border-bottom: 1px solid #edebe9; color: #323130; font-size: 11.5px; }
+.app--sentinel .app-t td { border-bottom: 1px solid #f3f2f1; font-size: 12px; }
+
+/* IBM QRadar Log Activity (Carbon light theme) */
+.app--qradar { --app-accent: #0f62fe; --load-top: 128px; background: #f4f4f4; color: #161616; }
+.qr-bar { display: flex; align-items: center; height: 32px; padding: 0 14px; background: #161616; color: #f4f4f4; font-size: 12.5px; }
+.qr-bar b { font-weight: 600; } .qr-r { margin-left: auto; color: #c6c6c6; font-size: 11.5px; }
+.qr-tabs { display: flex; background: #393939; color: #c6c6c6; font-size: 12px; }
+.qr-tabs span { padding: 7px 14px; } .qr-tabs .on { background: #f4f4f4; color: #161616; font-weight: 600; }
+.qr-tools { display: flex; gap: 16px; padding: 6px 14px; background: #fff; border-bottom: 1px solid #e0e0e0; color: #0f62fe; font-size: 11.5px; }
+.qr-q { display: flex; gap: 8px; padding: 8px 14px; align-items: stretch; }
+.qr-sel { display: grid; place-items: center; padding: 0 10px; background: #fff; border-bottom: 1px solid #8d8d8d; white-space: nowrap; }
+.qr-q .app-in { border-bottom: 1px solid #8d8d8d; max-height: 52px; overflow: hidden; }
+.qr-q .app-go { background: #0f62fe; color: #fff; border: 0; padding: 0 18px; }
+.qr-meta { display: flex; justify-content: space-between; padding: 0 14px 6px; font-size: 11.5px; color: #525252; }
+.app--qradar .app-res { margin: 0 14px; border: 1px solid #e0e0e0; border-bottom: 0; }
+.app--qradar .app-t th { background: #e0e0e0; color: #161616; font-size: 11.5px; }
+.app--qradar .app-t td { border-bottom: 1px solid #e0e0e0; font-size: 12px; }
+.app--qradar .app-t tbody tr:nth-child(odd) td { background: #fff; }

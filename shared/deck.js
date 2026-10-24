@@ -53,7 +53,7 @@
   }
 
   function entrance(slide) {
-    const parts = slide.querySelectorAll(".kicker, h1, h2, .desc, .syn, .flags tr, .use, .sub, .meta, .ag, .big li, .task, .term");
+    const parts = slide.querySelectorAll(".kicker, h1, h2, .desc, .syn, .flags tr, .use, .sub, .meta, .ag, .big li, .task, .term, .app, .ap-pts > div, .ap-tip");
     parts.forEach((el, i) => running.push(el.animate(
       [{ opacity: 0, transform: "translateY(16px)" }, { opacity: 1, transform: "none" }],
       { duration: 520, delay: 90 + i * 38, easing: EASE_IN, fill: "backwards" })));
@@ -84,7 +84,7 @@
   }
 
   addEventListener("keydown", (e) => {
-    if (e.target.classList?.contains("sim-in")) {
+    if (e.target.classList?.contains("sim-in") || e.target.classList?.contains("app-in")) {
       if (e.key === "PageDown") { e.preventDefault(); go(cur + 1); }
       if (e.key === "PageUp") { e.preventDefault(); go(cur - 1); }
       return;
@@ -101,14 +101,14 @@
 
   // Click: left quarter goes back, anywhere else goes forward. Interactive bits keep their own clicks.
   stage.addEventListener("click", (e) => {
-    if (e.target.closest(".term, .chips, button, a, input")) return;
+    if (e.target.closest(".term, .app, .chips, button, a, input")) return;
     if (String(getSelection())) return;
     go(e.clientX < innerWidth / 4 ? cur - 1 : cur + 1);
   });
 
   let wheelSum = 0, wheelLock = 0;
   addEventListener("wheel", (e) => {
-    const scr = e.target.closest?.(".screen");
+    const scr = e.target.closest?.(".screen, .app-res");
     if (scr && scr.scrollHeight > scr.clientHeight) return; // let a long terminal scroll
     if (Date.now() < wheelLock) return;
     wheelSum += e.deltaY || e.deltaX;
@@ -293,6 +293,109 @@
         b.textContent = c;
         b.title = `Run in the terminal: ${c}`;
         b.addEventListener("click", () => typeRun(c));
+        chips.append(b);
+      });
+      task.append(chips);
+    }
+  });
+
+
+  // ---------- Console mock-ups (.app): a search box that renders result tables ----------
+  const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
+  // Keep in step with render_res() in the lecture build, so the PDF and the live page match.
+  function renderRes(r) {
+    let h = "";
+    if (r.hist) {
+      const m = Math.max(...r.hist, 1);
+      h += '<div class="hist">' + r.hist.map((v) => `<i style="--h:${Math.round((v / m) * 100)}%"></i>`).join("") + "</div>";
+    }
+    const t = `<table class="app-t"><thead><tr>${r.cols.map((c) => `<th>${esc(c)}</th>`).join("")}</tr></thead><tbody>` +
+      r.rows.map((row) => `<tr>${row.map((c) => `<td>${esc(c)}</td>`).join("")}</tr>`).join("") + "</tbody></table>";
+    if (r.fields) {
+      const side = r.fields.map((f) => (typeof f === "string" ? `<h5>${esc(f)}</h5>` : `<div><span>${esc(f[0])}</span><b>${esc(f[1])}</b></div>`)).join("");
+      h += `<div class="res-split"><aside class="fields">${side}</aside>${t}</div>`;
+    } else h += t;
+    return h;
+  }
+
+  document.querySelectorAll(".app[data-app]").forEach((app) => {
+    const A = D.apps[Number(app.dataset.app)];
+    const input = app.querySelector(".app-in");
+    const res = app.querySelector(".app-res");
+    const meta = app.querySelector(".app-meta");
+    const mode = app.querySelector(".app-mode");
+    const tabs = app.querySelectorAll("[data-tab]");
+    let busy = false;
+
+    const show = (hit) => {
+      if (!hit) {
+        meta.textContent = A.empty;
+        res.innerHTML = '<div class="app-empty"><p><b>No results found.</b> This query is not in the lab dataset.</p><p>Try one of the recorded queries:</p></div>';
+        const box = res.firstChild;
+        A.ex.forEach((x) => {
+          const b = document.createElement("button");
+          b.type = "button";
+          b.textContent = x.q;
+          b.addEventListener("click", () => typeQuery(x.q));
+          box.append(b);
+        });
+        return;
+      }
+      meta.textContent = hit.meta;
+      if (mode && hit.mode) mode.textContent = hit.mode;
+      tabs.forEach((t) => {
+        t.classList.toggle("on", t.dataset.tab === hit.tab);
+        if (hit.tabs && hit.tabs[t.dataset.tab]) t.textContent = hit.tabs[t.dataset.tab];
+      });
+      res.innerHTML = renderRes(hit.res);
+      res.scrollTop = 0;
+      if (!RM.matches) res.querySelectorAll("tbody tr, .hist i").forEach((el, i) => el.animate(
+        [{ opacity: 0, transform: "translateY(4px)" }, { opacity: 1, transform: "none" }],
+        { duration: 260, delay: Math.min(i, 20) * 25, easing: "ease-out", fill: "backwards" }));
+    };
+    const run = () => {
+      if (busy) return;
+      const q = key(input.textContent);
+      const hit = A.ex.find((x) => key(x.q) === q);
+      if (RM.matches) { show(hit); return; }
+      busy = true;
+      app.classList.add("loading");
+      setTimeout(() => { app.classList.remove("loading"); show(hit); busy = false; }, 520);
+    };
+    async function typeQuery(q) {
+      if (busy) return;
+      input.focus({ preventScroll: true });
+      if (!RM.matches) {
+        busy = true;
+        input.textContent = "";
+        for (let i = 0; i < q.length; i += 2) { input.textContent = q.slice(0, i + 2); await new Promise((r) => setTimeout(r, 14)); }
+        busy = false;
+      }
+      input.textContent = q;
+      run();
+    }
+
+    input.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); run(); }
+      else if (e.key === "Escape") input.blur();
+    });
+    // Pasted rich text would carry markup into the query box.
+    input.addEventListener("paste", (e) => {
+      e.preventDefault();
+      document.execCommand("insertText", false, e.clipboardData.getData("text/plain"));
+    });
+    app.querySelectorAll(".app-go").forEach((b) => b.addEventListener("click", run));
+
+    const task = app.closest(".slide").querySelector(".task");
+    if (task) {
+      const chips = document.createElement("div");
+      chips.className = "chips";
+      A.ex.slice(0, 4).forEach((x) => {
+        const b = document.createElement("button");
+        b.type = "button";
+        b.textContent = x.q;
+        b.title = `Run: ${x.q}`;
+        b.addEventListener("click", () => typeQuery(x.q));
         chips.append(b);
       });
       task.append(chips);
