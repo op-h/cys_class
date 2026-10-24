@@ -802,6 +802,9 @@ footer { position: absolute; left: 64px; right: 64px; bottom: 22px; display: fle
     const screen = term.querySelector(".screen");
     const live = screen.querySelector(".ln.live");
     const pc = live.querySelector(".pc");
+    // sim.prompt = [user, separator]; a separator ending in "$" is a shell (cd/pwd tracking), anything else a query console.
+    const PR = sim.prompt ? sim.prompt[0] : "kali@kali";
+    const shell = !sim.prompt || sim.prompt[1].endsWith("$");
     const label = sim.cmd ? `Terminal simulator for ${sim.cmd}` : "Terminal simulator";
     live.insertAdjacentHTML("beforeend", `<input class="sim-in" type="text" spellcheck="false" autocomplete="off" autocapitalize="off" aria-label="${label}">`);
     const input = live.querySelector(".sim-in");
@@ -820,8 +823,9 @@ footer { position: absolute; left: 64px; right: 64px; bottom: 22px; display: fle
     const echo = (cmd) => {
       const d = document.createElement("div");
       d.className = "ln";
-      d.innerHTML = '<span class="pr">kali@kali</span><span class="pc"></span> <span class="cm"></span>';
-      d.querySelector(".pc").textContent = `:${cwd}$`;
+      d.innerHTML = '<span class="pr"></span><span class="pc"></span> <span class="cm"></span>';
+      d.querySelector(".pr").textContent = PR;
+      d.querySelector(".pc").textContent = shell ? `:${cwd}$` : sim.prompt[1];
       d.querySelector(".cm").textContent = cmd;
       live.before(d);
     };
@@ -876,7 +880,7 @@ footer { position: absolute; left: 64px; right: 64px; bottom: 22px; display: fle
         return;
       }
       if (w0 === "man") { line("What manual page do you want? Try: man " + (sim.cmd || "grep"), "err"); return; }
-      if (w0 === "cd" && !cmd.includes("&&")) {
+      if (shell && w0 === "cd" && !cmd.includes("&&")) {
         const target = rest[0] === "-" ? (oldCwd === "~" ? "/home/kali" : oldCwd) : resolve(rest[0]);
         if (rest[0] === "-") line(target);
         oldCwd = cwd;
@@ -884,22 +888,27 @@ footer { position: absolute; left: 64px; right: 64px; bottom: 22px; display: fle
         pc.textContent = `:${cwd}$`;
         return;
       }
-      if (cmd === "pwd") { line(resolve(".")); return; }
+      if (shell && cmd === "pwd") { line(resolve(".")); return; }
 
       const k = key(cmd);
       const alt = k.startsWith("sudo ") ? k.slice(5) : "sudo " + k;
       const out = local.get(k) ?? local.get(alt) ?? GLOBAL.get(k) ?? GLOBAL.get(alt);
       if (out) { out.forEach((t) => line(t)); return; }
 
-      if (w0 === "whoami") { line("kali"); return; }
+      if (shell && w0 === "whoami") { line(PR.split("@")[0]); return; }
       if (w0 === "echo") { line(rest.join(" ").replace(/^(['"])(.*)\1$/, "$2")); return; }
       if (w0 === "date") { line(new Date().toString()); return; }
-      if (cmd === "ls") { line("Desktop  Documents  Downloads  case01  lab-tmp  quarantine  scripts"); return; }
+      if (shell && cmd === "ls") { line("Desktop  Documents  Downloads  case01  lab-tmp  quarantine  scripts"); return; }
 
       const name = w0 === "sudo" ? rest[0] : w0;
       if (D.info[name]) {
         line(`[simulator] '${cmd}' isn't in this lab's recorded output.`, "tip");
         examples(D.info[name].ex, `Recorded examples for ${name}:`);
+        return;
+      }
+      if (!shell) {
+        line("[simulator] This query isn't in the lab dataset.", "tip");
+        examples(sim.ex.map((x) => x[0]), "Try one of the recorded queries:");
         return;
       }
       line(`zsh: command not found: ${w0}`, "err");
