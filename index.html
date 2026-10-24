@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>CYS Class</title>
+<meta name="description" content="Cybersecurity class lectures: interactive slide decks with terminal practice.">
+<style>
+:root { --bg:#0d1117; --panel:#161b22; --line:#30363d; --fg:#e6edf3; --mut:#9da7b3; --green:#7ee787; --blue:#58a6ff; }
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) { --bg:#f6f8fa; --panel:#ffffff; --line:#d0d7de; --fg:#1f2328; --mut:#57606a; --green:#1a7f37; --blue:#0969da; }
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--bg); color: var(--fg); font: 17px/1.55 "Noto Sans", system-ui, sans-serif; }
+main { max-width: 880px; margin: 0 auto; padding: 64px 16px; }
+code, .mono { font-family: "Fira Code", "DejaVu Sans Mono", ui-monospace, monospace; }
+.kicker { color: var(--blue); font: 600 14px/1 "Fira Code", ui-monospace, monospace; letter-spacing: .08em; text-transform: uppercase; }
+h1 { font-size: clamp(34px, 6vw, 52px); line-height: 1.1; margin: 14px 0 12px; letter-spacing: -.02em; }
+.lead { color: var(--mut); max-width: 60ch; }
+.prompt { margin: 28px 0 40px; background: #0a0e14; color: #b3bdc8; border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; font-size: 14px; overflow-x: auto; }
+.prompt b { color: #ff5c8a; } .prompt i { color: #58a6ff; font-style: normal; }
+h2 { font-size: 15px; color: var(--mut); text-transform: uppercase; letter-spacing: .08em; margin-bottom: 14px; }
+ol { list-style: none; display: grid; gap: 16px; }
+.card { background: var(--panel); border: 1px solid var(--line); border-left: 3px solid var(--green); border-radius: 10px; padding: 20px 22px; }
+.card .num { color: var(--green); font: 600 13px "Fira Code", ui-monospace, monospace; }
+.card h3 { font-size: 22px; margin: 4px 0 6px; }
+.card p { color: var(--mut); font-size: 15.5px; }
+.links { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 14px; }
+.links a { display: inline-flex; align-items: center; min-height: 40px; padding: 8px 14px; border-radius: 8px; border: 1px solid var(--line); color: var(--fg); text-decoration: none; font-size: 15px; }
+.links a.primary { background: var(--green); border-color: var(--green); color: #0d1117; font-weight: 600; }
+.links a:hover { border-color: var(--green); }
+a:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
+footer { margin-top: 48px; color: var(--mut); font-size: 14px; }
+</style>
+</head>
+<body>
+<main>
+  <p class="kicker">Cybersecurity class</p>
+  <h1>CYS Class lectures</h1>
+  <p class="lead">Slide decks for the class. Each one has a terminal on every slide where you can type the commands and practise.</p>
+  <pre class="prompt mono"><b>student@cys</b><i>:~$</i> ls lectures/
+01-linux-50-commands</pre>
+
+  <h2>Lectures</h2>
+  <ol>
+    <li class="card">
+      <span class="num">LECTURE 01</span>
+      <h3>The 50 Most-Used Linux Commands</h3>
+      <p>Files, text processing, users &amp; permissions, processes, networking and security tools: 50 commands, each with practice in a simulated terminal.</p>
+      <div class="links">
+        <a class="primary" href="linux-50-commands/">Open slides</a>
+        <a href="linux-50-commands/linux-50-commands.pdf" download>Download PDF</a>
+      </div>
+    </li>
+  </ol>
+
+  <footer>Use <code>←</code> <code>→</code>, click or scroll to change slides. Click a terminal to type.</footer>
+</main>
+</body>
+</html>

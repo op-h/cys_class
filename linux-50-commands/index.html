@@ -1,0 +1,957 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Top 50 Linux Commands</title><style>
+@page { size: 1280px 720px; margin: 0; }
+:root { --bg:#0d1117; --panel:#161b22; --line:#30363d; --fg:#e6edf3; --mut:#9da7b3; --term:#0a0e14; --green:#7ee787; --blue:#58a6ff; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { background: #05070a; color: var(--fg); font-family: "Noto Sans", "Cantarell", sans-serif; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+code, .mono, .term { font-family: "Fira Code", "Hack", "DejaVu Sans Mono", monospace; }
+.slide { width: 1280px; height: 720px; position: relative; overflow: hidden; padding: 56px 64px 70px;
+  background: radial-gradient(1200px 600px at 100% 0%, color-mix(in srgb, var(--c, #58a6ff) 9%, transparent), transparent 60%), var(--bg);
+  margin: 0 auto 24px; break-after: page; page-break-after: always; }
+@media print { .slide { margin: 0; } body { background: var(--bg); } }
+.kicker { color: var(--c, var(--blue)); font: 600 15px/1 "Fira Code", monospace; letter-spacing: .08em; text-transform: uppercase; margin-bottom: 14px; }
+h1 { font-size: 58px; line-height: 1.05; letter-spacing: -.02em; }
+h2 { font-size: 40px; line-height: 1.1; margin-bottom: 22px; }
+.sub { color: var(--mut); font-size: 21px; line-height: 1.5; margin-top: 20px; max-width: 560px; }
+.meta { margin-top: 28px; color: var(--green); font: 14px "Fira Code", monospace; }
+code { background: #1f2630; padding: 1px 6px; border-radius: 4px; font-size: .9em; color: #c9d1d9; }
+footer { position: absolute; left: 64px; right: 64px; bottom: 22px; display: flex; justify-content: space-between; color: #6e7781; font: 12px "Fira Code", monospace; border-top: 1px solid var(--line); padding-top: 10px; }
+
+.cover { display: grid; grid-template-columns: 1fr 520px; gap: 48px; align-items: center; }
+.cover .term { height: 420px; }
+.two { display: grid; grid-template-columns: 1fr 500px; gap: 40px; align-items: start; }
+.big { font-size: 18px; line-height: 1.55; padding-left: 22px; color: #c9d1d9; }
+.big li { margin-bottom: 12px; } .big b { color: var(--fg); }
+.agrid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+.ag { background: var(--panel); border: 1px solid var(--line); border-top: 3px solid var(--c); border-radius: 10px; padding: 16px 18px; min-height: 230px; }
+.ag h3 { font-size: 19px; margin-bottom: 10px; } .ag small { color: var(--c); font-family: "Fira Code", monospace; margin-left: 6px; }
+.ag p { line-height: 2; font-size: 14px; }
+.divider { display: flex; flex-direction: column; justify-content: center; }
+.divider h1 { font-size: 76px; color: var(--c); }
+.divider .sub { max-width: 900px; line-height: 2.1; }
+
+.cmd { display: grid; grid-template-columns: 470px 1fr; gap: 36px; }
+.cmd h2 { font-size: 54px; color: var(--c); margin-bottom: 10px; }
+.num { color: var(--fg); background: color-mix(in srgb, var(--c) 22%, transparent); padding: 3px 8px; border-radius: 4px; margin-right: 8px; }
+.desc { font-size: 18px; line-height: 1.45; color: #c9d1d9; margin-bottom: 14px; }
+.syn code { font-size: 15px; color: var(--green); background: var(--term); border: 1px solid var(--line); padding: 6px 10px; display: inline-block; }
+.flags { margin-top: 14px; border-collapse: collapse; width: 100%; font-size: 14px; }
+.flags td { padding: 5px 8px 5px 0; border-bottom: 1px solid #21262d; vertical-align: top; color: #c9d1d9; }
+.flags td:first-child { white-space: nowrap; width: 1%; padding-right: 14px; }
+.flags code { color: var(--c); }
+.use { margin-top: 16px; background: var(--panel); border-left: 3px solid var(--c); border-radius: 6px; padding: 10px 14px; font-size: 14.5px; line-height: 1.45; }
+.use b { color: var(--c); font-size: 12px; text-transform: uppercase; letter-spacing: .08em; }
+.use p { color: #c9d1d9; margin-top: 4px; }
+.right { display: flex; flex-direction: column; gap: 14px; min-width: 0; }
+.right .term { flex: 1; }
+.task { background: color-mix(in srgb, var(--green) 9%, var(--panel)); border: 1px dashed color-mix(in srgb, var(--green) 50%, transparent); border-radius: 8px; padding: 12px 16px; font-size: 15px; line-height: 1.45; color: #d1d9e0; }
+.task b { color: var(--green); font-family: "Fira Code", monospace; margin-right: 6px; }
+
+.term { background: var(--term); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; box-shadow: 0 18px 50px rgba(0,0,0,.45); display: flex; flex-direction: column; min-width: 0; }
+.bar { background: #1c2128; height: 32px; display: flex; align-items: center; gap: 7px; padding: 0 12px; border-bottom: 1px solid var(--line); flex: none; }
+.bar i { width: 12px; height: 12px; border-radius: 50%; background: #ff5f57; } .bar i:nth-child(2) { background: #febc2e; } .bar i:nth-child(3) { background: #28c840; }
+.bar span { margin-left: 10px; color: var(--mut); font-size: 12.5px; }
+.screen { padding: 14px 16px; font-size: 13px; line-height: 1.55; color: #b3bdc8; white-space: pre-wrap; word-break: break-all; overflow: hidden; }
+.ln + .ln:has(.pr) { margin-top: 6px; }
+.pr { color: #ff5c8a; font-weight: 600; } .pc { color: var(--blue); font-weight: 600; }
+.cm { color: #f0f6fc; } .co { color: #6a9955; font-style: italic; }
+.cur { display: inline-block; width: 8px; height: 15px; background: var(--green); vertical-align: -3px; }
+
+/* ---------- Presentation mode (added by deck.js; print and no-JS keep the stacked layout) ---------- */
+.sim-in, .deck-ui, .progress, .chips, .bar .hint, .toast { display: none; }
+@media screen {
+  html.deck, html.deck body { height: 100%; overflow: hidden; background: #05070a; }
+  html.deck .stage { position: fixed; left: 50%; top: 50%; width: 1280px; height: 720px;
+    transform: translate(-50%, -50%) scale(var(--s, 1)); transform-origin: center; }
+  /* overflow: clip (not hidden) so focusing the terminal input can never scroll the slide itself */
+  html.deck .slide { position: absolute; inset: 0; margin: 0; visibility: hidden; will-change: transform, opacity; overflow: clip; }
+  /* Pin terminal heights so typed output scrolls inside the screen instead of growing the slide */
+  html.deck .cmd { grid-template-rows: minmax(0, 1fr); }
+  html.deck .right, html.deck .right .term { min-height: 0; }
+  html.deck .two .term { height: 470px; }
+  html.deck .slide.on { visibility: visible; z-index: 2; }
+  html.deck .slide.out { visibility: visible; z-index: 1; pointer-events: none; }
+
+  /* Terminal becomes interactive */
+  html.deck .screen { flex: 1; min-height: 0; overflow-y: auto; scrollbar-width: thin; scrollbar-color: #30363d transparent; cursor: text; }
+  html.deck .ln.live { display: flex; align-items: baseline; gap: 0; }
+  html.deck .ln.live .pc { margin-right: .6ch; }
+  html.deck .ln.live .cur { display: none; }
+  html.deck .sim-in { display: block; flex: 1; min-width: 0; background: transparent; border: 0; outline: 0; padding: 0;
+    color: #f0f6fc; font: inherit; caret-color: var(--green); }
+  html.deck .term:focus-within { border-color: color-mix(in srgb, var(--green) 60%, var(--line)); box-shadow: 0 0 0 2px color-mix(in srgb, var(--green) 35%, transparent), 0 18px 50px rgba(0,0,0,.45); }
+  html.deck .bar .hint { display: inline; margin-left: auto; color: #6e7781; font-size: 11.5px; font-style: normal; }
+  html.deck .term:focus-within .bar .hint { color: var(--green); }
+  .ln.err { color: #ff7b72; } .ln.tip { color: #e3b341; }
+
+  /* "Try" buttons that type a command into the simulator */
+  html.deck .chips { display: flex; gap: 8px; margin-top: 10px; overflow: hidden; }
+  html.deck .chips button { flex: 0 1 auto; min-width: 0; min-height: 28px; max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+    font: 12.5px "Fira Code", monospace; color: #c9d1d9; background: #0a0e14; border: 1px solid #30363d; border-radius: 6px; padding: 4px 10px; cursor: pointer; }
+  html.deck .chips button:hover { border-color: var(--green); color: var(--green); }
+  html.deck .chips button::before { content: "▶ "; color: var(--green); }
+
+  /* Controls, kept outside the scaled stage so they stay readable */
+  html.deck .deck-ui { display: flex; position: fixed; right: 16px; bottom: 14px; z-index: 10; align-items: center; gap: 6px;
+    background: rgba(13,17,23,.82); border: 1px solid #30363d; border-radius: 999px; padding: 4px; backdrop-filter: blur(6px);
+    font: 13px "Fira Code", monospace; color: #9da7b3; opacity: .55; transition: opacity .2s; }
+  html.deck .deck-ui:hover, html.deck .deck-ui:focus-within { opacity: 1; }
+  html.deck .deck-ui button { width: 32px; height: 32px; border-radius: 50%; border: 0; background: transparent; color: #e6edf3; font-size: 18px; cursor: pointer; }
+  html.deck .deck-ui button:hover { background: #21262d; }
+  html.deck .deck-ui span { min-width: 64px; text-align: center; }
+  html.deck .progress { display: block; position: fixed; inset: 0 0 auto 0; height: 3px; z-index: 10; background: #161b22; }
+  html.deck .progress i { display: block; height: 100%; width: 0; background: linear-gradient(90deg, #58a6ff, #7ee787); transition: width .5s cubic-bezier(.16,1,.3,1); }
+  html.deck .toast { display: block; position: fixed; left: 50%; bottom: 20px; transform: translateX(-50%); z-index: 11;
+    background: rgba(13,17,23,.92); border: 1px solid #30363d; border-radius: 10px; padding: 10px 16px; color: #c9d1d9;
+    font: 13px "Noto Sans", sans-serif; transition: opacity .6s; max-width: calc(100vw - 32px); text-align: center; }
+  html.deck .toast.gone { opacity: 0; pointer-events: none; }
+  html.deck .toast kbd { font: 12px "Fira Code", monospace; background: #21262d; border: 1px solid #30363d; border-radius: 4px; padding: 1px 6px; }
+  html.deck :focus-visible { outline: 2px solid #7ee787; outline-offset: 2px; }
+}
+@media (prefers-reduced-motion: reduce) { html.deck .progress i, html.deck .toast { transition: none; } }
+</style></head><body>
+<section class="slide cover">
+<div class="cv-left"><p class="kicker">Lecture · Linux for Cybersecurity</p>
+<h1>The 50 Most-Used<br>Linux Commands</h1>
+<p class="sub">for security analysts, sysadmins and blue/red-team learners — every command with a hands-on terminal practice.</p>
+<p class="meta">50 commands · 6 modules · practice tasks on every slide</p></div>
+<div class="term" data-sim="0"><div class="bar"><i></i><i></i><i></i><span>kali@kali: ~</span></div>
+<div class="screen"><div class="ln"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cm">whoami</span></div><div class="ln">student</div><div class="ln"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cm">cat goals.txt</span></div><div class="ln">1. Navigate and read any Linux system</div><div class="ln">2. Analyse logs like an investigator</div><div class="ln">3. Audit users, services and ports</div><div class="ln">4. Harden and verify a host</div><div class="ln"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cm">echo &#x27;lets begin&#x27;</span></div><div class="ln">lets begin</div><div class="ln live"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cur"></span></div></div></div>
+<footer><span>Top 50 Linux Commands for Cybersecurity</span><span>Cover</span><span>1</span></footer></section>
+<section class="slide">
+<p class="kicker">Before we start</p><h2>Your lab & the rules</h2>
+<div class="two"><div><ul class="big">
+<li><b>Practise on systems you own</b> — a Kali VM plus one or two target VMs on a host-only network (e.g. 192.168.56.0/24).</li>
+<li><b>Scanning or testing other people's systems without written permission is illegal</b> in most countries. scanme.nmap.org is one host that explicitly allows light scanning.</li>
+<li><b>Take snapshots</b> before you experiment, so you can always roll back.</li>
+<li>Output in these slides is <b>example output</b> from a lab: your numbers will differ.</li></ul></div>
+<div class="term" data-sim="1"><div class="bar"><i></i><i></i><i></i><span>lab setup</span></div>
+<div class="screen"><div class="ln co"># typical lab layout</div><div class="ln"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cm">ip -br a</span></div><div class="ln">eth0  UP  192.168.56.101/24   # Kali</div><div class="ln co"># target VM: 192.168.56.10 (lab-web)</div><div class="ln"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cm">ping -c 1 192.168.56.10</span></div><div class="ln">64 bytes from 192.168.56.10: ttl=64 time=0.4 ms</div><div class="ln co"># ready.</div><div class="ln live"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cur"></span></div></div></div></div>
+<footer><span>Top 50 Linux Commands for Cybersecurity</span><span>Lab &amp; ethics</span><span>2</span></footer></section>
+<section class="slide"><p class="kicker">Agenda</p><h2>Six modules, fifty commands</h2><div class="agrid"><div class="ag" style="--c:#58a6ff"><h3>Files &amp; Navigation <small>9</small></h3><p><code>pwd</code> · <code>ls</code> · <code>cd</code> · <code>cat</code> · <code>cp</code> · <code>mv</code> · <code>rm</code> · <code>find</code> · <code>file</code></p></div><div class="ag" style="--c:#d2a8ff"><h3>Text Processing <small>10</small></h3><p><code>grep</code> · <code>awk</code> · <code>sed</code> · <code>cut</code> · <code>sort</code> · <code>uniq</code> · <code>wc</code> · <code>tail</code> · <code>strings</code> · <code>xxd</code></p></div><div class="ag" style="--c:#ffa657"><h3>Users &amp; Permissions <small>6</small></h3><p><code>whoami</code> · <code>id</code> · <code>sudo</code> · <code>su</code> · <code>chmod</code> · <code>chown</code></p></div><div class="ag" style="--c:#7ee787"><h3>Processes &amp; System <small>8</small></h3><p><code>ps</code> · <code>top</code> · <code>kill</code> · <code>lsof</code> · <code>uname</code> · <code>systemctl</code> · <code>journalctl</code> · <code>crontab</code></p></div><div class="ag" style="--c:#79c0ff"><h3>Networking <small>12</small></h3><p><code>ip</code> · <code>ss</code> · <code>ping</code> · <code>traceroute</code> · <code>dig</code> · <code>curl</code> · <code>wget</code> · <code>nc</code> · <code>ssh</code> · <code>scp</code> · <code>nmap</code> · <code>tcpdump</code></p></div><div class="ag" style="--c:#ff7b72"><h3>Security &amp; Archives <small>5</small></h3><p><code>iptables</code> · <code>tar</code> · <code>base64</code> · <code>sha256sum</code> · <code>openssl</code></p></div></div><footer><span>Top 50 Linux Commands for Cybersecurity</span><span>Agenda</span><span>3</span></footer></section>
+<section class="slide divider" style="--c:#58a6ff"><p class="kicker">Module 1 of 6</p>
+<h1>Files &amp; Navigation</h1><p class="sub"><code>pwd</code> <code>ls</code> <code>cd</code> <code>cat</code> <code>cp</code> <code>mv</code> <code>rm</code> <code>find</code> <code>file</code></p><footer><span>Top 50 Linux Commands for Cybersecurity</span><span>Module 1</span><span>4</span></footer></section>
+<section class="slide cmd" style="--c:#58a6ff">
+<div class="left"><p class="kicker"><span class="num">01/50</span> Files &amp; Navigation</p>
+<h2 class="mono">pwd</h2><p class="desc">Prints the full path of the directory you are currently in.</p>
+<p class="syn"><code>pwd [-P]</code></p>
+<table class="flags"><tr><td><code>-P</code></td><td>show the physical path (resolve symlinks)</td></tr><tr><td><code>-L</code></td><td>show the logical path (default)</td></tr></table>
+<div class="use"><b>Security use</b><p>Always confirm where you are before running commands that change or delete files during an investigation.</p></div></div>
+<div class="right"><div class="term" data-sim="2"><div class="bar"><i></i><i></i><i></i><span>kali@kali: ~</span></div>
+<div class="screen"><div class="ln"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cm">pwd</span></div><div class="ln">/home/kali</div><div class="ln"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cm">cd /var/log &amp;&amp; pwd</span></div><div class="ln">/var/log</div><div class="ln"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cm">cd /tmp/link-to-logs &amp;&amp; pwd -P</span></div><div class="ln">/var/log</div><div class="ln live"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cur"></span></div></div></div>
+<div class="task"><b>▶ Practice</b> Make a symlink to /etc in your home folder, cd into it, and compare pwd with pwd -P.</div></div>
+<footer><span>Top 50 Linux Commands for Cybersecurity</span><span>pwd</span><span>5</span></footer></section>
+<section class="slide cmd" style="--c:#58a6ff">
+<div class="left"><p class="kicker"><span class="num">02/50</span> Files &amp; Navigation</p>
+<h2 class="mono">ls</h2><p class="desc">Lists directory contents, including hidden files and permissions.</p>
+<p class="syn"><code>ls [options] [path]</code></p>
+<table class="flags"><tr><td><code>-l</code></td><td>long format: permissions, owner, size, date</td></tr><tr><td><code>-a</code></td><td>include hidden (dot) files</td></tr><tr><td><code>-h</code></td><td>human-readable sizes</td></tr><tr><td><code>-t</code></td><td>sort by modification time</td></tr></table>
+<div class="use"><b>Security use</b><p>Hidden files and odd permissions are often the first clue when auditing a home folder or web root.</p></div></div>
+<div class="right"><div class="term" data-sim="3"><div class="bar"><i></i><i></i><i></i><span>kali@kali: ~</span></div>
+<div class="screen"><div class="ln"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cm">ls -lah ~</span></div><div class="ln">drwx------ 18 kali kali 4.0K Oct 24 09:12 .</div><div class="ln">-rw-------  1 kali kali 8.2K Oct 24 09:10 .bash_history</div><div class="ln">drwx------  2 kali kali 4.0K Oct 20 14:01 .ssh</div><div class="ln">-rw-r--r--  1 kali kali  220 Oct  1 10:00 .bashrc</div><div class="ln">drwxr-xr-x  2 kali kali 4.0K Oct 23 18:44 Desktop</div><div class="ln"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cm">ls -lt /var/log | head -3</span></div><div class="ln">total 2140</div><div class="ln">-rw-r-----  1 root adm   412K Oct 24 09:12 auth.log</div><div class="ln">-rw-r-----  1 root adm   1.1M Oct 24 09:12 syslog</div><div class="ln live"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cur"></span></div></div></div>
+<div class="task"><b>▶ Practice</b> List /etc sorted by modification time. Which config file changed most recently?</div></div>
+<footer><span>Top 50 Linux Commands for Cybersecurity</span><span>ls</span><span>6</span></footer></section>
+<section class="slide cmd" style="--c:#58a6ff">
+<div class="left"><p class="kicker"><span class="num">03/50</span> Files &amp; Navigation</p>
+<h2 class="mono">cd</h2><p class="desc">Changes the current working directory.</p>
+<p class="syn"><code>cd [directory]</code></p>
+<table class="flags"><tr><td><code>cd ~</code></td><td>go to your home directory</td></tr><tr><td><code>cd -</code></td><td>jump back to the previous directory</td></tr><tr><td><code>cd ..</code></td><td>go up one level</td></tr><tr><td><code>cd /</code></td><td>go to the filesystem root</td></tr></table>
+<div class="use"><b>Security use</b><p>Moving quickly between /var/log, /etc and /tmp is the backbone of every triage session.</p></div></div>
+<div class="right"><div class="term" data-sim="4"><div class="bar"><i></i><i></i><i></i><span>kali@kali: ~</span></div>
+<div class="screen"><div class="ln"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cm">cd /etc/ssh</span></div><div class="ln"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cm">pwd</span></div><div class="ln">/etc/ssh</div><div class="ln"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cm">cd -</span></div><div class="ln">/home/kali</div><div class="ln"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cm">cd ../..</span></div><div class="ln"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cm">pwd</span></div><div class="ln">/</div><div class="ln live"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cur"></span></div></div></div>
+<div class="task"><b>▶ Practice</b> From your home folder, reach /var/log/apt using one absolute and one relative path.</div></div>
+<footer><span>Top 50 Linux Commands for Cybersecurity</span><span>cd</span><span>7</span></footer></section>
+<section class="slide cmd" style="--c:#58a6ff">
+<div class="left"><p class="kicker"><span class="num">04/50</span> Files &amp; Navigation</p>
+<h2 class="mono">cat</h2><p class="desc">Concatenates files and prints them to the terminal.</p>
+<p class="syn"><code>cat [options] file...</code></p>
+<table class="flags"><tr><td><code>-n</code></td><td>number every line</td></tr><tr><td><code>-A</code></td><td>show hidden characters (tabs, line ends)</td></tr><tr><td><code>-s</code></td><td>squeeze repeated blank lines</td></tr></table>
+<div class="use"><b>Security use</b><p>Quickly read configs such as /etc/passwd or /etc/hosts, and reveal hidden characters with -A.</p></div></div>
+<div class="right"><div class="term" data-sim="5"><div class="bar"><i></i><i></i><i></i><span>kali@kali: ~</span></div>
+<div class="screen"><div class="ln"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cm">cat /etc/hosts</span></div><div class="ln">127.0.0.1   localhost</div><div class="ln">127.0.1.1   kali</div><div class="ln">192.168.56.10 lab-web.local</div><div class="ln"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cm">cat -n /etc/passwd | tail -3</span></div><div class="ln">  46  kali:x:1000:1000:Kali,,,:/home/kali:/usr/bin/zsh</div><div class="ln">  47  postgres:x:122:130::/var/lib/postgresql:/bin/bash</div><div class="ln">  48  analyst:x:1001:1001::/home/analyst:/bin/bash</div><div class="ln live"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cur"></span></div></div></div>
+<div class="task"><b>▶ Practice</b> Use cat -n on /etc/passwd. How many accounts have a real login shell?</div></div>
+<footer><span>Top 50 Linux Commands for Cybersecurity</span><span>cat</span><span>8</span></footer></section>
+<section class="slide cmd" style="--c:#58a6ff">
+<div class="left"><p class="kicker"><span class="num">05/50</span> Files &amp; Navigation</p>
+<h2 class="mono">cp</h2><p class="desc">Copies files and directories.</p>
+<p class="syn"><code>cp [options] source dest</code></p>
+<table class="flags"><tr><td><code>-r</code></td><td>copy directories recursively</td></tr><tr><td><code>-p</code></td><td>preserve mode, owner and timestamps</td></tr><tr><td><code>-a</code></td><td>archive mode (recursive + preserve)</td></tr><tr><td><code>-i</code></td><td>ask before overwriting</td></tr></table>
+<div class="use"><b>Security use</b><p>Preserve evidence: copy logs with -a so timestamps and ownership stay intact for analysis.</p></div></div>
+<div class="right"><div class="term" data-sim="6"><div class="bar"><i></i><i></i><i></i><span>kali@kali: ~</span></div>
+<div class="screen"><div class="ln"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cm">mkdir -p ~/case01</span></div><div class="ln"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cm">sudo cp -a /var/log/auth.log ~/case01/</span></div><div class="ln"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cm">ls -l ~/case01</span></div><div class="ln">-rw-r----- 1 root adm 412K Oct 24 09:12 auth.log</div><div class="ln co"># timestamp preserved from the original</div><div class="ln live"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cur"></span></div></div></div>
+<div class="task"><b>▶ Practice</b> Copy /etc/ssh/sshd_config with and without -p and compare the timestamps with ls -l.</div></div>
+<footer><span>Top 50 Linux Commands for Cybersecurity</span><span>cp</span><span>9</span></footer></section>
+<section class="slide cmd" style="--c:#58a6ff">
+<div class="left"><p class="kicker"><span class="num">06/50</span> Files &amp; Navigation</p>
+<h2 class="mono">mv</h2><p class="desc">Moves or renames files and directories.</p>
+<p class="syn"><code>mv [options] source dest</code></p>
+<table class="flags"><tr><td><code>-i</code></td><td>prompt before overwrite</td></tr><tr><td><code>-n</code></td><td>never overwrite</td></tr><tr><td><code>-v</code></td><td>verbose: show what was moved</td></tr></table>
+<div class="use"><b>Security use</b><p>Quarantine a suspicious file by moving it into an isolated folder instead of deleting it.</p></div></div>
+<div class="right"><div class="term" data-sim="7"><div class="bar"><i></i><i></i><i></i><span>kali@kali: ~</span></div>
+<div class="screen"><div class="ln"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cm">mkdir -p ~/quarantine</span></div><div class="ln"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cm">mv -v ~/Downloads/invoice.pdf.sh ~/quarantine/</span></div><div class="ln">renamed &#x27;/home/kali/Downloads/invoice.pdf.sh&#x27; -&gt; &#x27;/home/kali/quarantine/invoice.pdf.sh&#x27;</div><div class="ln"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cm">chmod 000 ~/quarantine/invoice.pdf.sh</span></div><div class="ln live"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cur"></span></div></div></div>
+<div class="task"><b>▶ Practice</b> Create a test file, rename it with mv -v, then move it into a new folder.</div></div>
+<footer><span>Top 50 Linux Commands for Cybersecurity</span><span>mv</span><span>10</span></footer></section>
+<section class="slide cmd" style="--c:#58a6ff">
+<div class="left"><p class="kicker"><span class="num">07/50</span> Files &amp; Navigation</p>
+<h2 class="mono">rm</h2><p class="desc">Removes files or directories. There is no recycle bin.</p>
+<p class="syn"><code>rm [options] file...</code></p>
+<table class="flags"><tr><td><code>-i</code></td><td>ask before every removal</td></tr><tr><td><code>-r</code></td><td>remove directories recursively</td></tr><tr><td><code>-f</code></td><td>force, ignore missing files</td></tr><tr><td><code>-v</code></td><td>verbose</td></tr></table>
+<div class="use"><b>Security use</b><p>Clean up lab artifacts safely. Double-check paths: rm -rf on the wrong path is unrecoverable.</p></div></div>
+<div class="right"><div class="term" data-sim="8"><div class="bar"><i></i><i></i><i></i><span>kali@kali: ~</span></div>
+<div class="screen"><div class="ln"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cm">ls ~/lab-tmp</span></div><div class="ln">notes.txt  scan-old.xml  test.log</div><div class="ln"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cm">rm -iv ~/lab-tmp/*.log</span></div><div class="ln">rm: remove regular file &#x27;test.log&#x27;? y</div><div class="ln">removed &#x27;/home/kali/lab-tmp/test.log&#x27;</div><div class="ln live"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cur"></span></div></div></div>
+<div class="task"><b>▶ Practice</b> Create three files in a test folder and remove only the .log files using rm -i.</div></div>
+<footer><span>Top 50 Linux Commands for Cybersecurity</span><span>rm</span><span>11</span></footer></section>
+<section class="slide cmd" style="--c:#58a6ff">
+<div class="left"><p class="kicker"><span class="num">08/50</span> Files &amp; Navigation</p>
+<h2 class="mono">find</h2><p class="desc">Searches the filesystem by name, type, size, owner, time or permission.</p>
+<p class="syn"><code>find [path] [tests] [actions]</code></p>
+<table class="flags"><tr><td><code>-name</code></td><td>match a filename pattern</td></tr><tr><td><code>-perm</code></td><td>match permissions (e.g. -4000 for SUID)</td></tr><tr><td><code>-mtime</code></td><td>modified N days ago</td></tr><tr><td><code>-user</code></td><td>owned by a user</td></tr></table>
+<div class="use"><b>Security use</b><p>Auditors hunt for SUID binaries, world-writable files and recently changed files after an incident.</p></div></div>
+<div class="right"><div class="term" data-sim="9"><div class="bar"><i></i><i></i><i></i><span>kali@kali: ~</span></div>
+<div class="screen"><div class="ln"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cm">find / -perm -4000 -type f 2&gt;/dev/null | head -4</span></div><div class="ln">/usr/bin/passwd</div><div class="ln">/usr/bin/sudo</div><div class="ln">/usr/bin/mount</div><div class="ln">/usr/bin/su</div><div class="ln"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cm">find /etc -mtime -1 -type f 2&gt;/dev/null</span></div><div class="ln">/etc/hosts</div><div class="ln"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cm">find /tmp -perm -o+w -type f</span></div><div class="ln">/tmp/build.lock</div><div class="ln live"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cur"></span></div></div></div>
+<div class="task"><b>▶ Practice</b> Find every file in /etc modified in the last 7 days, and every SUID file on your system.</div></div>
+<footer><span>Top 50 Linux Commands for Cybersecurity</span><span>find</span><span>12</span></footer></section>
+<section class="slide cmd" style="--c:#58a6ff">
+<div class="left"><p class="kicker"><span class="num">09/50</span> Files &amp; Navigation</p>
+<h2 class="mono">file</h2><p class="desc">Identifies a file&#x27;s real type by its content, not its extension.</p>
+<p class="syn"><code>file [options] file...</code></p>
+<table class="flags"><tr><td><code>-b</code></td><td>brief: omit the filename</td></tr><tr><td><code>-i</code></td><td>print the MIME type</td></tr><tr><td><code>-z</code></td><td>look inside compressed files</td></tr></table>
+<div class="use"><b>Security use</b><p>Extensions lie. &#x27;photo.jpg&#x27; might really be an ELF executable or a script; file reveals it.</p></div></div>
+<div class="right"><div class="term" data-sim="10"><div class="bar"><i></i><i></i><i></i><span>kali@kali: ~</span></div>
+<div class="screen"><div class="ln"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cm">file photo.jpg report.pdf invoice.pdf.sh</span></div><div class="ln">photo.jpg:        JPEG image data, JFIF standard 1.01</div><div class="ln">report.pdf:       PDF document, version 1.7</div><div class="ln">invoice.pdf.sh:   Bourne-Again shell script, ASCII text executable</div><div class="ln"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cm">file -i /usr/bin/ls</span></div><div class="ln">/usr/bin/ls: application/x-pie-executable; charset=binary</div><div class="ln live"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cur"></span></div></div></div>
+<div class="task"><b>▶ Practice</b> Rename a text file to image.png, then run file on it. What does it report?</div></div>
+<footer><span>Top 50 Linux Commands for Cybersecurity</span><span>file</span><span>13</span></footer></section>
+<section class="slide divider" style="--c:#d2a8ff"><p class="kicker">Module 2 of 6</p>
+<h1>Text Processing</h1><p class="sub"><code>grep</code> <code>awk</code> <code>sed</code> <code>cut</code> <code>sort</code> <code>uniq</code> <code>wc</code> <code>tail</code> <code>strings</code> <code>xxd</code></p><footer><span>Top 50 Linux Commands for Cybersecurity</span><span>Module 2</span><span>14</span></footer></section>
+<section class="slide cmd" style="--c:#d2a8ff">
+<div class="left"><p class="kicker"><span class="num">10/50</span> Text Processing</p>
+<h2 class="mono">grep</h2><p class="desc">Searches text for lines matching a pattern or regular expression.</p>
+<p class="syn"><code>grep [options] pattern [file...]</code></p>
+<table class="flags"><tr><td><code>-i</code></td><td>case-insensitive</td></tr><tr><td><code>-r</code></td><td>search directories recursively</td></tr><tr><td><code>-v</code></td><td>invert: show non-matching lines</td></tr><tr><td><code>-E</code></td><td>extended regex</td></tr><tr><td><code>-c</code></td><td>count matches</td></tr></table>
+<div class="use"><b>Security use</b><p>The number one log-analysis tool: find failed logins, error codes or indicators of compromise.</p></div></div>
+<div class="right"><div class="term" data-sim="11"><div class="bar"><i></i><i></i><i></i><span>kali@kali: ~</span></div>
+<div class="screen"><div class="ln"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cm">sudo grep -c &#x27;Failed password&#x27; /var/log/auth.log</span></div><div class="ln">37</div><div class="ln"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cm">sudo grep &#x27;Failed password&#x27; /var/log/auth.log | tail -2</span></div><div class="ln">Oct 24 08:51:02 kali sshd[2210]: Failed password for root from 192.168.56.23 port 50412</div><div class="ln">Oct 24 08:51:05 kali sshd[2210]: Failed password for root from 192.168.56.23 port 50418</div><div class="ln"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cm">grep -rEi &#x27;password|secret&#x27; ~/project/config</span></div><div class="ln">config/app.env:DB_PASSWORD=TODO_change_me</div><div class="ln live"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cur"></span></div></div></div>
+<div class="task"><b>▶ Practice</b> Search /var/log/auth.log for &#x27;Accepted&#x27; to list successful logins on your machine.</div></div>
+<footer><span>Top 50 Linux Commands for Cybersecurity</span><span>grep</span><span>15</span></footer></section>
+<section class="slide cmd" style="--c:#d2a8ff">
+<div class="left"><p class="kicker"><span class="num">11/50</span> Text Processing</p>
+<h2 class="mono">awk</h2><p class="desc">A pattern-scanning language for extracting and reshaping columns of text.</p>
+<p class="syn"><code>awk &#x27;pattern { action }&#x27; file</code></p>
+<table class="flags"><tr><td><code>-F</code></td><td>set the field separator</td></tr><tr><td><code>$1, $NF</code></td><td>first field, last field</td></tr><tr><td><code>NR</code></td><td>current line number</td></tr></table>
+<div class="use"><b>Security use</b><p>Pull specific columns out of logs, e.g. the source IP of every failed login.</p></div></div>
+<div class="right"><div class="term" data-sim="12"><div class="bar"><i></i><i></i><i></i><span>kali@kali: ~</span></div>
+<div class="screen"><div class="ln"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cm">awk -F: &#x27;$7 ~ /bash|zsh/ {print $1}&#x27; /etc/passwd</span></div><div class="ln">root</div><div class="ln">kali</div><div class="ln">postgres</div><div class="ln">analyst</div><div class="ln"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cm">sudo grep &#x27;Failed password&#x27; /var/log/auth.log | awk &#x27;{print $(NF-3)}&#x27; | head -3</span></div><div class="ln">192.168.56.23</div><div class="ln">192.168.56.23</div><div class="ln">192.168.56.41</div><div class="ln live"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cur"></span></div></div></div>
+<div class="task"><b>▶ Practice</b> Use awk to print each user&#x27;s name and home directory from /etc/passwd.</div></div>
+<footer><span>Top 50 Linux Commands for Cybersecurity</span><span>awk</span><span>16</span></footer></section>
+<section class="slide cmd" style="--c:#d2a8ff">
+<div class="left"><p class="kicker"><span class="num">12/50</span> Text Processing</p>
+<h2 class="mono">sed</h2><p class="desc">A stream editor: find-and-replace and line edits on text streams.</p>
+<p class="syn"><code>sed [options] &#x27;script&#x27; file</code></p>
+<table class="flags"><tr><td><code>s/a/b/g</code></td><td>substitute a with b globally</td></tr><tr><td><code>-n &#x27;Np&#x27;</code></td><td>print only line N</td></tr><tr><td><code>-i</code></td><td>edit the file in place</td></tr><tr><td><code>/re/d</code></td><td>delete matching lines</td></tr></table>
+<div class="use"><b>Security use</b><p>Redact sensitive data before sharing logs, or strip comments to see the active config.</p></div></div>
+<div class="right"><div class="term" data-sim="13"><div class="bar"><i></i><i></i><i></i><span>kali@kali: ~</span></div>
+<div class="screen"><div class="ln"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cm">sed -E &#x27;s/[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+/x.x.x.x/g&#x27; auth-sample.log | head -2</span></div><div class="ln">Oct 24 08:51:02 sshd[2210]: Failed password for root from x.x.x.x port 50412</div><div class="ln">Oct 24 08:51:05 sshd[2210]: Failed password for root from x.x.x.x port 50418</div><div class="ln"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cm">sed -e &#x27;/^#/d&#x27; -e &#x27;/^$/d&#x27; /etc/ssh/sshd_config</span></div><div class="ln">Include /etc/ssh/sshd_config.d/*.conf</div><div class="ln">KbdInteractiveAuthentication no</div><div class="ln">UsePAM yes</div><div class="ln">X11Forwarding yes</div><div class="ln live"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cur"></span></div></div></div>
+<div class="task"><b>▶ Practice</b> Show only the active (non-comment) lines of /etc/ssh/sshd_config.</div></div>
+<footer><span>Top 50 Linux Commands for Cybersecurity</span><span>sed</span><span>17</span></footer></section>
+<section class="slide cmd" style="--c:#d2a8ff">
+<div class="left"><p class="kicker"><span class="num">13/50</span> Text Processing</p>
+<h2 class="mono">cut</h2><p class="desc">Extracts sections (fields or characters) from each line.</p>
+<p class="syn"><code>cut [options] file</code></p>
+<table class="flags"><tr><td><code>-d</code></td><td>field delimiter</td></tr><tr><td><code>-f</code></td><td>field numbers to keep</td></tr><tr><td><code>-c</code></td><td>character positions to keep</td></tr></table>
+<div class="use"><b>Security use</b><p>Fast column extraction from CSVs, /etc/passwd or exported logs.</p></div></div>
+<div class="right"><div class="term" data-sim="14"><div class="bar"><i></i><i></i><i></i><span>kali@kali: ~</span></div>
+<div class="screen"><div class="ln"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cm">cut -d: -f1,6 /etc/passwd | tail -3</span></div><div class="ln">kali:/home/kali</div><div class="ln">postgres:/var/lib/postgresql</div><div class="ln">analyst:/home/analyst</div><div class="ln"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cm">cut -d, -f2 logins.csv | head -3</span></div><div class="ln">src_ip</div><div class="ln">192.168.56.23</div><div class="ln">192.168.56.41</div><div class="ln live"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cur"></span></div></div></div>
+<div class="task"><b>▶ Practice</b> Use cut to list only the usernames from /etc/passwd.</div></div>
+<footer><span>Top 50 Linux Commands for Cybersecurity</span><span>cut</span><span>18</span></footer></section>
+<section class="slide cmd" style="--c:#d2a8ff">
+<div class="left"><p class="kicker"><span class="num">14/50</span> Text Processing</p>
+<h2 class="mono">sort</h2><p class="desc">Sorts lines alphabetically, numerically or by a chosen column.</p>
+<p class="syn"><code>sort [options] file</code></p>
+<table class="flags"><tr><td><code>-n</code></td><td>numeric sort</td></tr><tr><td><code>-r</code></td><td>reverse order</td></tr><tr><td><code>-k</code></td><td>sort by a column</td></tr><tr><td><code>-u</code></td><td>unique lines only</td></tr><tr><td><code>-h</code></td><td>human sizes (1K, 2M)</td></tr></table>
+<div class="use"><b>Security use</b><p>Combined with uniq, sort turns raw logs into ranked lists such as &#x27;top attacking IPs&#x27;.</p></div></div>
+<div class="right"><div class="term" data-sim="15"><div class="bar"><i></i><i></i><i></i><span>kali@kali: ~</span></div>
+<div class="screen"><div class="ln"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cm">du -sh /var/log/* 2&gt;/dev/null | sort -rh | head -4</span></div><div class="ln">52M  /var/log/journal</div><div class="ln">1.1M /var/log/syslog</div><div class="ln">412K /var/log/auth.log</div><div class="ln">96K  /var/log/dpkg.log</div><div class="ln live"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cur"></span></div></div></div>
+<div class="task"><b>▶ Practice</b> Find the five largest folders in your home directory using du and sort.</div></div>
+<footer><span>Top 50 Linux Commands for Cybersecurity</span><span>sort</span><span>19</span></footer></section>
+<section class="slide cmd" style="--c:#d2a8ff">
+<div class="left"><p class="kicker"><span class="num">15/50</span> Text Processing</p>
+<h2 class="mono">uniq</h2><p class="desc">Filters or counts adjacent duplicate lines (sort first).</p>
+<p class="syn"><code>uniq [options] [file]</code></p>
+<table class="flags"><tr><td><code>-c</code></td><td>prefix lines with their count</td></tr><tr><td><code>-d</code></td><td>only show duplicated lines</td></tr><tr><td><code>-u</code></td><td>only show unique lines</td></tr></table>
+<div class="use"><b>Security use</b><p>The classic &#x27;who is hammering my SSH?&#x27; pipeline: grep, extract, sort, uniq -c, sort -rn.</p></div></div>
+<div class="right"><div class="term" data-sim="16"><div class="bar"><i></i><i></i><i></i><span>kali@kali: ~</span></div>
+<div class="screen"><div class="ln"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cm">sudo grep &#x27;Failed password&#x27; /var/log/auth.log \</span></div><div class="ln cm">    | awk &#x27;{print $(NF-3)}&#x27; | sort | uniq -c | sort -rn</div><div class="ln">     29 192.168.56.23</div><div class="ln">      6 192.168.56.41</div><div class="ln">      2 192.168.56.7</div><div class="ln live"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cur"></span></div></div></div>
+<div class="task"><b>▶ Practice</b> Build the pipeline above on your own auth.log. Which source has the most failures?</div></div>
+<footer><span>Top 50 Linux Commands for Cybersecurity</span><span>uniq</span><span>20</span></footer></section>
+<section class="slide cmd" style="--c:#d2a8ff">
+<div class="left"><p class="kicker"><span class="num">16/50</span> Text Processing</p>
+<h2 class="mono">wc</h2><p class="desc">Counts lines, words and bytes.</p>
+<p class="syn"><code>wc [options] file</code></p>
+<table class="flags"><tr><td><code>-l</code></td><td>count lines</td></tr><tr><td><code>-w</code></td><td>count words</td></tr><tr><td><code>-c</code></td><td>count bytes</td></tr></table>
+<div class="use"><b>Security use</b><p>Quantify events: how many failed logins, how many users, how many lines in a wordlist.</p></div></div>
+<div class="right"><div class="term" data-sim="17"><div class="bar"><i></i><i></i><i></i><span>kali@kali: ~</span></div>
+<div class="screen"><div class="ln"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cm">wc -l /etc/passwd</span></div><div class="ln">48 /etc/passwd</div><div class="ln"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cm">sudo grep -c &#x27;Accepted&#x27; /var/log/auth.log</span></div><div class="ln">5</div><div class="ln"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cm">ls /usr/bin | wc -l</span></div><div class="ln">2431</div><div class="ln live"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cur"></span></div></div></div>
+<div class="task"><b>▶ Practice</b> Count how many lines in /etc/group mention the &#x27;sudo&#x27; group.</div></div>
+<footer><span>Top 50 Linux Commands for Cybersecurity</span><span>wc</span><span>21</span></footer></section>
+<section class="slide cmd" style="--c:#d2a8ff">
+<div class="left"><p class="kicker"><span class="num">17/50</span> Text Processing</p>
+<h2 class="mono">tail</h2><p class="desc">Shows the end of a file and can follow it live as it grows.</p>
+<p class="syn"><code>tail [options] file</code></p>
+<table class="flags"><tr><td><code>-n N</code></td><td>show the last N lines</td></tr><tr><td><code>-f</code></td><td>follow new lines in real time</td></tr><tr><td><code>-F</code></td><td>follow even if the file is rotated</td></tr></table>
+<div class="use"><b>Security use</b><p>Watch authentication or web-server logs live while you test or while an incident unfolds.</p></div></div>
+<div class="right"><div class="term" data-sim="18"><div class="bar"><i></i><i></i><i></i><span>kali@kali: ~</span></div>
+<div class="screen"><div class="ln"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cm">sudo tail -f /var/log/auth.log</span></div><div class="ln">Oct 24 09:14:10 kali sshd[2391]: Accepted publickey for kali from 192.168.56.1</div><div class="ln">Oct 24 09:14:10 kali sshd[2391]: pam_unix(sshd:session): session opened for user kali</div><div class="ln">Oct 24 09:15:02 kali sudo:   kali : TTY=pts/1 ; COMMAND=/usr/bin/systemctl status ssh</div><div class="ln">^C</div><div class="ln live"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cur"></span></div></div></div>
+<div class="task"><b>▶ Practice</b> Run tail -f on auth.log in one terminal and use sudo in another. Watch the entry appear.</div></div>
+<footer><span>Top 50 Linux Commands for Cybersecurity</span><span>tail</span><span>22</span></footer></section>
+<section class="slide cmd" style="--c:#d2a8ff">
+<div class="left"><p class="kicker"><span class="num">18/50</span> Text Processing</p>
+<h2 class="mono">strings</h2><p class="desc">Prints the readable text sequences hidden inside binary files.</p>
+<p class="syn"><code>strings [options] file</code></p>
+<table class="flags"><tr><td><code>-n N</code></td><td>minimum string length</td></tr><tr><td><code>-a</code></td><td>scan the whole file</td></tr><tr><td><code>-e l</code></td><td>16-bit little-endian (Windows) strings</td></tr></table>
+<div class="use"><b>Security use</b><p>First look at an unknown binary: embedded URLs, paths and messages reveal what it does.</p></div></div>
+<div class="right"><div class="term" data-sim="19"><div class="bar"><i></i><i></i><i></i><span>kali@kali: ~</span></div>
+<div class="screen"><div class="ln"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cm">strings -n 8 ./unknown-sample | grep -Ei &#x27;http|/etc|/tmp&#x27; </span></div><div class="ln">http://update.example.com/check</div><div class="ln">/etc/cron.d/</div><div class="ln">/tmp/.cache_x</div><div class="ln co"># indicators worth noting in the report</div><div class="ln live"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cur"></span></div></div></div>
+<div class="task"><b>▶ Practice</b> Run strings on /usr/bin/ls and look for its usage/help text.</div></div>
+<footer><span>Top 50 Linux Commands for Cybersecurity</span><span>strings</span><span>23</span></footer></section>
+<section class="slide cmd" style="--c:#d2a8ff">
+<div class="left"><p class="kicker"><span class="num">19/50</span> Text Processing</p>
+<h2 class="mono">xxd</h2><p class="desc">Creates a hex dump of a file (or reverses one).</p>
+<p class="syn"><code>xxd [options] file</code></p>
+<table class="flags"><tr><td><code>-l N</code></td><td>only dump N bytes</td></tr><tr><td><code>-s N</code></td><td>start at offset N</td></tr><tr><td><code>-r</code></td><td>reverse a hex dump back to binary</td></tr></table>
+<div class="use"><b>Security use</b><p>Inspect file headers (&#x27;magic bytes&#x27;) to confirm a file&#x27;s true type during forensics.</p></div></div>
+<div class="right"><div class="term" data-sim="20"><div class="bar"><i></i><i></i><i></i><span>kali@kali: ~</span></div>
+<div class="screen"><div class="ln"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cm">xxd -l 16 /usr/bin/ls</span></div><div class="ln">00000000: 7f45 4c46 0201 0100 0000 0000 0000 0000  .ELF............</div><div class="ln"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cm">xxd -l 8 photo.jpg</span></div><div class="ln">00000000: ffd8 ffe0 0010 4a46                      ......JF</div><div class="ln"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cm">xxd -l 4 report.pdf</span></div><div class="ln">00000000: 2550 4446                                %PDF</div><div class="ln live"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cur"></span></div></div></div>
+<div class="task"><b>▶ Practice</b> Dump the first 16 bytes of a PNG and an ELF file. Compare their magic bytes.</div></div>
+<footer><span>Top 50 Linux Commands for Cybersecurity</span><span>xxd</span><span>24</span></footer></section>
+<section class="slide divider" style="--c:#ffa657"><p class="kicker">Module 3 of 6</p>
+<h1>Users &amp; Permissions</h1><p class="sub"><code>whoami</code> <code>id</code> <code>sudo</code> <code>su</code> <code>chmod</code> <code>chown</code></p><footer><span>Top 50 Linux Commands for Cybersecurity</span><span>Module 3</span><span>25</span></footer></section>
+<section class="slide cmd" style="--c:#ffa657">
+<div class="left"><p class="kicker"><span class="num">20/50</span> Users &amp; Permissions</p>
+<h2 class="mono">whoami</h2><p class="desc">Prints the username of the current effective user.</p>
+<p class="syn"><code>whoami</code></p>
+<table class="flags"><tr><td><code>(none)</code></td><td>no common options; same as id -un</td></tr></table>
+<div class="use"><b>Security use</b><p>Confirm which account you are acting as, especially after sudo or su.</p></div></div>
+<div class="right"><div class="term" data-sim="21"><div class="bar"><i></i><i></i><i></i><span>kali@kali: ~</span></div>
+<div class="screen"><div class="ln"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cm">whoami</span></div><div class="ln">kali</div><div class="ln"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cm">sudo whoami</span></div><div class="ln">root</div><div class="ln live"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cur"></span></div></div></div>
+<div class="task"><b>▶ Practice</b> Run whoami, then sudo whoami, then explain why the answers differ.</div></div>
+<footer><span>Top 50 Linux Commands for Cybersecurity</span><span>whoami</span><span>26</span></footer></section>
+<section class="slide cmd" style="--c:#ffa657">
+<div class="left"><p class="kicker"><span class="num">21/50</span> Users &amp; Permissions</p>
+<h2 class="mono">id</h2><p class="desc">Shows user ID, group ID and all group memberships.</p>
+<p class="syn"><code>id [user]</code></p>
+<table class="flags"><tr><td><code>-u</code></td><td>user ID only</td></tr><tr><td><code>-g</code></td><td>primary group ID only</td></tr><tr><td><code>-G</code></td><td>all group IDs</td></tr><tr><td><code>-n</code></td><td>names instead of numbers</td></tr></table>
+<div class="use"><b>Security use</b><p>Group membership (sudo, adm, docker) decides what an account can really do; check it in every audit.</p></div></div>
+<div class="right"><div class="term" data-sim="22"><div class="bar"><i></i><i></i><i></i><span>kali@kali: ~</span></div>
+<div class="screen"><div class="ln"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cm">id</span></div><div class="ln">uid=1000(kali) gid=1000(kali) groups=1000(kali),4(adm),27(sudo),100(users)</div><div class="ln"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cm">id analyst</span></div><div class="ln">uid=1001(analyst) gid=1001(analyst) groups=1001(analyst)</div><div class="ln live"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cur"></span></div></div></div>
+<div class="task"><b>▶ Practice</b> Check which users on your system belong to the sudo group (hint: getent group sudo).</div></div>
+<footer><span>Top 50 Linux Commands for Cybersecurity</span><span>id</span><span>27</span></footer></section>
+<section class="slide cmd" style="--c:#ffa657">
+<div class="left"><p class="kicker"><span class="num">22/50</span> Users &amp; Permissions</p>
+<h2 class="mono">sudo</h2><p class="desc">Runs a single command with another user&#x27;s (usually root&#x27;s) privileges.</p>
+<p class="syn"><code>sudo [options] command</code></p>
+<table class="flags"><tr><td><code>-l</code></td><td>list what you are allowed to run</td></tr><tr><td><code>-u user</code></td><td>run as a specific user</td></tr><tr><td><code>-i</code></td><td>start a root login shell</td></tr><tr><td><code>-k</code></td><td>forget cached credentials</td></tr></table>
+<div class="use"><b>Security use</b><p>Least privilege: use sudo per command, and review sudo -l output when auditing accounts.</p></div></div>
+<div class="right"><div class="term" data-sim="23"><div class="bar"><i></i><i></i><i></i><span>kali@kali: ~</span></div>
+<div class="screen"><div class="ln"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cm">sudo -l</span></div><div class="ln">User kali may run the following commands on kali:</div><div class="ln">    (ALL : ALL) ALL</div><div class="ln"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cm">sudo grep -v &#x27;^#&#x27; /etc/sudoers | grep -v &#x27;^$&#x27; | tail -2</span></div><div class="ln">root    ALL=(ALL:ALL) ALL</div><div class="ln">%sudo   ALL=(ALL:ALL) ALL</div><div class="ln live"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cur"></span></div></div></div>
+<div class="task"><b>▶ Practice</b> Run sudo -l for your account, then read /etc/sudoers with sudo less (never edit it without visudo).</div></div>
+<footer><span>Top 50 Linux Commands for Cybersecurity</span><span>sudo</span><span>28</span></footer></section>
+<section class="slide cmd" style="--c:#ffa657">
+<div class="left"><p class="kicker"><span class="num">23/50</span> Users &amp; Permissions</p>
+<h2 class="mono">su</h2><p class="desc">Switches to another user account in the current terminal.</p>
+<p class="syn"><code>su [options] [user]</code></p>
+<table class="flags"><tr><td><code>-</code></td><td>full login environment of the target user</td></tr><tr><td><code>-c cmd</code></td><td>run one command as that user</td></tr><tr><td><code>-s shell</code></td><td>use a specific shell</td></tr></table>
+<div class="use"><b>Security use</b><p>Test what a low-privilege account can access by switching into it on your own lab system.</p></div></div>
+<div class="right"><div class="term" data-sim="24"><div class="bar"><i></i><i></i><i></i><span>kali@kali: ~</span></div>
+<div class="screen"><div class="ln"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cm">sudo su - analyst</span></div><div class="ln">analyst@kali:~$ whoami</div><div class="ln">analyst</div><div class="ln">analyst@kali:~$ cat /var/log/auth.log</div><div class="ln">cat: /var/log/auth.log: Permission denied</div><div class="ln">analyst@kali:~$ exit</div><div class="ln live"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cur"></span></div></div></div>
+<div class="task"><b>▶ Practice</b> Create a test user (sudo adduser test1), switch to it, and see which files it cannot read.</div></div>
+<footer><span>Top 50 Linux Commands for Cybersecurity</span><span>su</span><span>29</span></footer></section>
+<section class="slide cmd" style="--c:#ffa657">
+<div class="left"><p class="kicker"><span class="num">24/50</span> Users &amp; Permissions</p>
+<h2 class="mono">chmod</h2><p class="desc">Changes file permission bits (read, write, execute).</p>
+<p class="syn"><code>chmod [options] mode file</code></p>
+<table class="flags"><tr><td><code>u/g/o</code></td><td>user, group, others</td></tr><tr><td><code>+x / -w</code></td><td>add execute, remove write</td></tr><tr><td><code>600, 755</code></td><td>octal modes</td></tr><tr><td><code>-R</code></td><td>recursive</td></tr></table>
+<div class="use"><b>Security use</b><p>Lock down secrets: SSH private keys must be 600, otherwise ssh refuses to use them.</p></div></div>
+<div class="right"><div class="term" data-sim="25"><div class="bar"><i></i><i></i><i></i><span>kali@kali: ~</span></div>
+<div class="screen"><div class="ln"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cm">ls -l ~/.ssh/id_ed25519</span></div><div class="ln">-rw-r--r-- 1 kali kali 411 Oct 20 14:01 /home/kali/.ssh/id_ed25519</div><div class="ln"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cm">chmod 600 ~/.ssh/id_ed25519</span></div><div class="ln"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cm">ls -l ~/.ssh/id_ed25519</span></div><div class="ln">-rw------- 1 kali kali 411 Oct 20 14:01 /home/kali/.ssh/id_ed25519</div><div class="ln co"># 6 = rw for owner, 0 for group, 0 for others</div><div class="ln live"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cur"></span></div></div></div>
+<div class="task"><b>▶ Practice</b> Create a script, make it executable with chmod +x, then convert its mode to octal.</div></div>
+<footer><span>Top 50 Linux Commands for Cybersecurity</span><span>chmod</span><span>30</span></footer></section>
+<section class="slide cmd" style="--c:#ffa657">
+<div class="left"><p class="kicker"><span class="num">25/50</span> Users &amp; Permissions</p>
+<h2 class="mono">chown</h2><p class="desc">Changes the owner and group of files.</p>
+<p class="syn"><code>chown [options] user[:group] file</code></p>
+<table class="flags"><tr><td><code>user:group</code></td><td>set both owner and group</td></tr><tr><td><code>-R</code></td><td>recursive</td></tr><tr><td><code>--reference=f</code></td><td>copy ownership from file f</td></tr></table>
+<div class="use"><b>Security use</b><p>Wrong ownership on web roots or service files is a common misconfiguration finding.</p></div></div>
+<div class="right"><div class="term" data-sim="26"><div class="bar"><i></i><i></i><i></i><span>kali@kali: ~</span></div>
+<div class="screen"><div class="ln"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cm">ls -l /var/www/html/index.html</span></div><div class="ln">-rw-r--r-- 1 kali kali 10701 Oct 22 11:30 index.html</div><div class="ln"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cm">sudo chown -R www-data:www-data /var/www/html</span></div><div class="ln"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cm">ls -l /var/www/html/index.html</span></div><div class="ln">-rw-r--r-- 1 www-data www-data 10701 Oct 22 11:30 index.html</div><div class="ln live"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cur"></span></div></div></div>
+<div class="task"><b>▶ Practice</b> Create a file as root with sudo touch, then give it back to your user with chown.</div></div>
+<footer><span>Top 50 Linux Commands for Cybersecurity</span><span>chown</span><span>31</span></footer></section>
+<section class="slide divider" style="--c:#7ee787"><p class="kicker">Module 4 of 6</p>
+<h1>Processes &amp; System</h1><p class="sub"><code>ps</code> <code>top</code> <code>kill</code> <code>lsof</code> <code>uname</code> <code>systemctl</code> <code>journalctl</code> <code>crontab</code></p><footer><span>Top 50 Linux Commands for Cybersecurity</span><span>Module 4</span><span>32</span></footer></section>
+<section class="slide cmd" style="--c:#7ee787">
+<div class="left"><p class="kicker"><span class="num">26/50</span> Processes &amp; System</p>
+<h2 class="mono">ps</h2><p class="desc">Takes a snapshot of running processes.</p>
+<p class="syn"><code>ps [options]</code></p>
+<table class="flags"><tr><td><code>aux</code></td><td>all processes, with user and CPU/RAM usage</td></tr><tr><td><code>-ef</code></td><td>full format listing</td></tr><tr><td><code>--forest</code></td><td>show parent/child tree</td></tr></table>
+<div class="use"><b>Security use</b><p>Spot unexpected processes, odd parents, or programs running from /tmp.</p></div></div>
+<div class="right"><div class="term" data-sim="27"><div class="bar"><i></i><i></i><i></i><span>kali@kali: ~</span></div>
+<div class="screen"><div class="ln"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cm">ps aux --sort=-%cpu | head -4</span></div><div class="ln">USER   PID %CPU %MEM COMMAND</div><div class="ln">kali  2511 12.4  3.1 /usr/bin/firefox-esr</div><div class="ln">root   812  1.2  0.4 /usr/sbin/sshd -D</div><div class="ln">kali  2390  0.6  0.2 -zsh</div><div class="ln"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cm">ps -ef --forest | grep -A1 sshd | head -3</span></div><div class="ln">root   812     1  /usr/sbin/sshd -D</div><div class="ln">root  2391   812   \_ sshd: kali [priv]</div><div class="ln live"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cur"></span></div></div></div>
+<div class="task"><b>▶ Practice</b> List all processes owned by root, then all processes running from /tmp (if any).</div></div>
+<footer><span>Top 50 Linux Commands for Cybersecurity</span><span>ps</span><span>33</span></footer></section>
+<section class="slide cmd" style="--c:#7ee787">
+<div class="left"><p class="kicker"><span class="num">27/50</span> Processes &amp; System</p>
+<h2 class="mono">top</h2><p class="desc">Shows a live, updating view of processes and resource usage.</p>
+<p class="syn"><code>top [options]</code></p>
+<table class="flags"><tr><td><code>-u user</code></td><td>only one user&#x27;s processes</td></tr><tr><td><code>-p PID</code></td><td>watch specific PIDs</td></tr><tr><td><code>P / M</code></td><td>sort by CPU / memory (inside top)</td></tr><tr><td><code>k</code></td><td>kill a process (inside top)</td></tr></table>
+<div class="use"><b>Security use</b><p>Sudden CPU spikes can indicate cryptominers or runaway processes; top shows them instantly.</p></div></div>
+<div class="right"><div class="term" data-sim="28"><div class="bar"><i></i><i></i><i></i><span>kali@kali: ~</span></div>
+<div class="screen"><div class="ln"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cm">top -b -n 1 | head -8</span></div><div class="ln">top - 09:20:11 up 2:14,  2 users,  load average: 0.42, 0.31, 0.25</div><div class="ln">Tasks: 214 total,   1 running, 213 sleeping</div><div class="ln">%Cpu(s):  6.1 us,  1.9 sy, 91.8 id</div><div class="ln">MiB Mem :   7951.4 total,   3120.8 free</div><div class="ln">&nbsp;</div><div class="ln">  PID USER   PR  NI  %CPU %MEM  COMMAND</div><div class="ln"> 2511 kali   20   0  12.4  3.1  firefox-esr</div><div class="ln live"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cur"></span></div></div></div>
+<div class="task"><b>▶ Practice</b> Open top, press M to sort by memory, then press q. Note the top three processes.</div></div>
+<footer><span>Top 50 Linux Commands for Cybersecurity</span><span>top</span><span>34</span></footer></section>
+<section class="slide cmd" style="--c:#7ee787">
+<div class="left"><p class="kicker"><span class="num">28/50</span> Processes &amp; System</p>
+<h2 class="mono">kill</h2><p class="desc">Sends a signal to a process, usually to stop it.</p>
+<p class="syn"><code>kill [-signal] PID</code></p>
+<table class="flags"><tr><td><code>-15 (TERM)</code></td><td>polite stop request (default)</td></tr><tr><td><code>-9 (KILL)</code></td><td>force stop, cannot be ignored</td></tr><tr><td><code>-l</code></td><td>list all signals</td></tr><tr><td><code>pkill name</code></td><td>kill by name</td></tr></table>
+<div class="use"><b>Security use</b><p>Containment: stop a malicious or runaway process after recording its details for the report.</p></div></div>
+<div class="right"><div class="term" data-sim="29"><div class="bar"><i></i><i></i><i></i><span>kali@kali: ~</span></div>
+<div class="screen"><div class="ln"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cm">sleep 600 &amp;</span></div><div class="ln">[1] 3042</div><div class="ln"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cm">ps -p 3042 -o pid,user,cmd</span></div><div class="ln">  PID USER  CMD</div><div class="ln"> 3042 kali  sleep 600</div><div class="ln"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cm">kill 3042</span></div><div class="ln">[1]  + terminated  sleep 600</div><div class="ln live"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cur"></span></div></div></div>
+<div class="task"><b>▶ Practice</b> Start sleep 600 in the background, find its PID with ps, and stop it with kill.</div></div>
+<footer><span>Top 50 Linux Commands for Cybersecurity</span><span>kill</span><span>35</span></footer></section>
+<section class="slide cmd" style="--c:#7ee787">
+<div class="left"><p class="kicker"><span class="num">29/50</span> Processes &amp; System</p>
+<h2 class="mono">lsof</h2><p class="desc">Lists open files: and in Linux, sockets and devices are files too.</p>
+<p class="syn"><code>lsof [options]</code></p>
+<table class="flags"><tr><td><code>-i</code></td><td>network connections</td></tr><tr><td><code>-i :PORT</code></td><td>who is using a port</td></tr><tr><td><code>-p PID</code></td><td>files opened by a process</td></tr><tr><td><code>-u user</code></td><td>files opened by a user</td></tr></table>
+<div class="use"><b>Security use</b><p>Map a listening port back to the exact process and binary that opened it.</p></div></div>
+<div class="right"><div class="term" data-sim="30"><div class="bar"><i></i><i></i><i></i><span>kali@kali: ~</span></div>
+<div class="screen"><div class="ln"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cm">sudo lsof -i :22</span></div><div class="ln">COMMAND  PID USER  FD  TYPE  NODE NAME</div><div class="ln">sshd     812 root  3u  IPv4  TCP  *:ssh (LISTEN)</div><div class="ln">sshd    2391 root  4u  IPv4  TCP  kali:ssh-&gt;192.168.56.1:51522 (ESTABLISHED)</div><div class="ln"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cm">sudo lsof -p 812 | grep txt</span></div><div class="ln">sshd 812 root txt REG 8,1 917192 /usr/sbin/sshd</div><div class="ln live"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cur"></span></div></div></div>
+<div class="task"><b>▶ Practice</b> Find which process is listening on each open port of your machine with lsof -i -P -n.</div></div>
+<footer><span>Top 50 Linux Commands for Cybersecurity</span><span>lsof</span><span>36</span></footer></section>
+<section class="slide cmd" style="--c:#7ee787">
+<div class="left"><p class="kicker"><span class="num">30/50</span> Processes &amp; System</p>
+<h2 class="mono">uname</h2><p class="desc">Prints system information such as kernel version and architecture.</p>
+<p class="syn"><code>uname [options]</code></p>
+<table class="flags"><tr><td><code>-a</code></td><td>all information</td></tr><tr><td><code>-r</code></td><td>kernel release</td></tr><tr><td><code>-m</code></td><td>machine architecture</td></tr></table>
+<div class="use"><b>Security use</b><p>Kernel version tells you which security patches are present when you assess a host.</p></div></div>
+<div class="right"><div class="term" data-sim="31"><div class="bar"><i></i><i></i><i></i><span>kali@kali: ~</span></div>
+<div class="screen"><div class="ln"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cm">uname -a</span></div><div class="ln">Linux kali 6.11.2-amd64 #1 SMP PREEMPT_DYNAMIC Kali 6.11.2-1kali1 x86_64 GNU/Linux</div><div class="ln"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cm">uname -r</span></div><div class="ln">6.11.2-amd64</div><div class="ln"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cm">cat /etc/os-release | head -2</span></div><div class="ln">PRETTY_NAME=&quot;Kali GNU/Linux Rolling&quot;</div><div class="ln">NAME=&quot;Kali GNU/Linux&quot;</div><div class="ln live"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cur"></span></div></div></div>
+<div class="task"><b>▶ Practice</b> Record your kernel release and compare it with the latest available version after apt update.</div></div>
+<footer><span>Top 50 Linux Commands for Cybersecurity</span><span>uname</span><span>37</span></footer></section>
+<section class="slide cmd" style="--c:#7ee787">
+<div class="left"><p class="kicker"><span class="num">31/50</span> Processes &amp; System</p>
+<h2 class="mono">systemctl</h2><p class="desc">Controls systemd services: start, stop, enable and inspect them.</p>
+<p class="syn"><code>systemctl [command] [unit]</code></p>
+<table class="flags"><tr><td><code>status</code></td><td>is it running? recent logs</td></tr><tr><td><code>start / stop</code></td><td>run or halt now</td></tr><tr><td><code>enable / disable</code></td><td>start at boot or not</td></tr><tr><td><code>list-units --type=service</code></td><td>list services</td></tr></table>
+<div class="use"><b>Security use</b><p>Reduce attack surface: disable services you do not need and check for unknown ones.</p></div></div>
+<div class="right"><div class="term" data-sim="32"><div class="bar"><i></i><i></i><i></i><span>kali@kali: ~</span></div>
+<div class="screen"><div class="ln"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cm">systemctl status ssh --no-pager | head -3</span></div><div class="ln">● ssh.service - OpenBSD Secure Shell server</div><div class="ln">     Loaded: loaded (/usr/lib/systemd/system/ssh.service; disabled)</div><div class="ln">     Active: active (running) since Fri 2026-10-24 07:06:12</div><div class="ln"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cm">sudo systemctl disable --now ssh</span></div><div class="ln">Removed &#x27;/etc/systemd/system/multi-user.target.wants/ssh.service&#x27;.</div><div class="ln live"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cur"></span></div></div></div>
+<div class="task"><b>▶ Practice</b> List running services with systemctl list-units --type=service --state=running. Do you need them all?</div></div>
+<footer><span>Top 50 Linux Commands for Cybersecurity</span><span>systemctl</span><span>38</span></footer></section>
+<section class="slide cmd" style="--c:#7ee787">
+<div class="left"><p class="kicker"><span class="num">32/50</span> Processes &amp; System</p>
+<h2 class="mono">journalctl</h2><p class="desc">Queries the systemd journal (system and service logs).</p>
+<p class="syn"><code>journalctl [options]</code></p>
+<table class="flags"><tr><td><code>-u unit</code></td><td>logs for one service</td></tr><tr><td><code>-f</code></td><td>follow live</td></tr><tr><td><code>--since</code></td><td>time filter, e.g. &#x27;1 hour ago&#x27;</td></tr><tr><td><code>-p err</code></td><td>only errors and worse</td></tr></table>
+<div class="use"><b>Security use</b><p>Central place to review service activity, failed logins and errors with precise time filters.</p></div></div>
+<div class="right"><div class="term" data-sim="33"><div class="bar"><i></i><i></i><i></i><span>kali@kali: ~</span></div>
+<div class="screen"><div class="ln"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cm">journalctl -u ssh --since &#x27;1 hour ago&#x27; --no-pager | tail -3</span></div><div class="ln">Oct 24 08:51:05 kali sshd[2210]: Failed password for root from 192.168.56.23 port 50418</div><div class="ln">Oct 24 08:51:09 kali sshd[2210]: Connection closed by 192.168.56.23 port 50418</div><div class="ln">Oct 24 09:14:10 kali sshd[2391]: Accepted publickey for kali from 192.168.56.1</div><div class="ln"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cm">journalctl -p err -b --no-pager | wc -l</span></div><div class="ln">4</div><div class="ln live"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cur"></span></div></div></div>
+<div class="task"><b>▶ Practice</b> Show all error-level messages since the last boot with journalctl -p err -b.</div></div>
+<footer><span>Top 50 Linux Commands for Cybersecurity</span><span>journalctl</span><span>39</span></footer></section>
+<section class="slide cmd" style="--c:#7ee787">
+<div class="left"><p class="kicker"><span class="num">33/50</span> Processes &amp; System</p>
+<h2 class="mono">crontab</h2><p class="desc">Views and edits scheduled tasks (cron jobs).</p>
+<p class="syn"><code>crontab [options]</code></p>
+<table class="flags"><tr><td><code>-l</code></td><td>list your cron jobs</td></tr><tr><td><code>-e</code></td><td>edit your cron jobs</td></tr><tr><td><code>-u user</code></td><td>act on another user (root)</td></tr><tr><td><code>/etc/cron.*</code></td><td>system-wide schedules</td></tr></table>
+<div class="use"><b>Security use</b><p>Scheduled tasks are a common persistence spot; review every user&#x27;s crontab and /etc/cron.d.</p></div></div>
+<div class="right"><div class="term" data-sim="34"><div class="bar"><i></i><i></i><i></i><span>kali@kali: ~</span></div>
+<div class="screen"><div class="ln"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cm">crontab -l</span></div><div class="ln co"># m h dom mon dow command</div><div class="ln">0 2 * * * /home/kali/scripts/backup.sh</div><div class="ln"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cm">ls /etc/cron.d</span></div><div class="ln">e2scrub_all  php  sysstat</div><div class="ln"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cm">sudo crontab -l -u root</span></div><div class="ln">no crontab for root</div><div class="ln live"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cur"></span></div></div></div>
+<div class="task"><b>▶ Practice</b> List your crontab and the contents of /etc/cron.d. Can you explain every entry?</div></div>
+<footer><span>Top 50 Linux Commands for Cybersecurity</span><span>crontab</span><span>40</span></footer></section>
+<section class="slide divider" style="--c:#79c0ff"><p class="kicker">Module 5 of 6</p>
+<h1>Networking</h1><p class="sub"><code>ip</code> <code>ss</code> <code>ping</code> <code>traceroute</code> <code>dig</code> <code>curl</code> <code>wget</code> <code>nc</code> <code>ssh</code> <code>scp</code> <code>nmap</code> <code>tcpdump</code></p><footer><span>Top 50 Linux Commands for Cybersecurity</span><span>Module 5</span><span>41</span></footer></section>
+<section class="slide cmd" style="--c:#79c0ff">
+<div class="left"><p class="kicker"><span class="num">34/50</span> Networking</p>
+<h2 class="mono">ip</h2><p class="desc">Shows and configures network interfaces, addresses and routes.</p>
+<p class="syn"><code>ip [object] [command]</code></p>
+<table class="flags"><tr><td><code>ip a</code></td><td>addresses on every interface</td></tr><tr><td><code>ip r</code></td><td>routing table</td></tr><tr><td><code>ip link</code></td><td>interface state</td></tr><tr><td><code>ip neigh</code></td><td>ARP / neighbour table</td></tr></table>
+<div class="use"><b>Security use</b><p>Know your own network position first: your IP, gateway and neighbours on the segment.</p></div></div>
+<div class="right"><div class="term" data-sim="35"><div class="bar"><i></i><i></i><i></i><span>kali@kali: ~</span></div>
+<div class="screen"><div class="ln"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cm">ip -br a</span></div><div class="ln">lo        UNKNOWN  127.0.0.1/8</div><div class="ln">eth0      UP       192.168.56.101/24</div><div class="ln"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cm">ip r</span></div><div class="ln">default via 192.168.56.1 dev eth0</div><div class="ln">192.168.56.0/24 dev eth0 proto kernel src 192.168.56.101</div><div class="ln"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cm">ip neigh</span></div><div class="ln">192.168.56.1 dev eth0 lladdr 0a:00:27:00:00:00 REACHABLE</div><div class="ln live"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cur"></span></div></div></div>
+<div class="task"><b>▶ Practice</b> Find your IP address, default gateway and the MAC address of the gateway.</div></div>
+<footer><span>Top 50 Linux Commands for Cybersecurity</span><span>ip</span><span>42</span></footer></section>
+<section class="slide cmd" style="--c:#79c0ff">
+<div class="left"><p class="kicker"><span class="num">35/50</span> Networking</p>
+<h2 class="mono">ss</h2><p class="desc">Displays sockets: listening ports and active connections (modern netstat).</p>
+<p class="syn"><code>ss [options]</code></p>
+<table class="flags"><tr><td><code>-t / -u</code></td><td>TCP / UDP</td></tr><tr><td><code>-l</code></td><td>listening sockets only</td></tr><tr><td><code>-n</code></td><td>numeric, no name lookup</td></tr><tr><td><code>-p</code></td><td>show the owning process</td></tr></table>
+<div class="use"><b>Security use</b><p>Audit what your host exposes: every listening port should be expected and documented.</p></div></div>
+<div class="right"><div class="term" data-sim="36"><div class="bar"><i></i><i></i><i></i><span>kali@kali: ~</span></div>
+<div class="screen"><div class="ln"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cm">sudo ss -tulnp</span></div><div class="ln">Netid State  Local Address:Port  Process</div><div class="ln">tcp   LISTEN 0.0.0.0:22          users:((&quot;sshd&quot;,pid=812))</div><div class="ln">tcp   LISTEN 127.0.0.1:5432      users:((&quot;postgres&quot;,pid=901))</div><div class="ln">tcp   LISTEN 0.0.0.0:80          users:((&quot;apache2&quot;,pid=1033))</div><div class="ln">udp   UNCONN 0.0.0.0:68          users:((&quot;dhclient&quot;,pid=640))</div><div class="ln live"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cur"></span></div></div></div>
+<div class="task"><b>▶ Practice</b> List your listening ports with ss -tulnp. Which ones are reachable from other machines (0.0.0.0)?</div></div>
+<footer><span>Top 50 Linux Commands for Cybersecurity</span><span>ss</span><span>43</span></footer></section>
+<section class="slide cmd" style="--c:#79c0ff">
+<div class="left"><p class="kicker"><span class="num">36/50</span> Networking</p>
+<h2 class="mono">ping</h2><p class="desc">Tests reachability and round-trip time using ICMP echo.</p>
+<p class="syn"><code>ping [options] host</code></p>
+<table class="flags"><tr><td><code>-c N</code></td><td>send N packets then stop</td></tr><tr><td><code>-i sec</code></td><td>interval between packets</td></tr><tr><td><code>-W sec</code></td><td>timeout per reply</td></tr></table>
+<div class="use"><b>Security use</b><p>First connectivity check in any lab; also shows whether ICMP is filtered by a firewall.</p></div></div>
+<div class="right"><div class="term" data-sim="37"><div class="bar"><i></i><i></i><i></i><span>kali@kali: ~</span></div>
+<div class="screen"><div class="ln"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cm">ping -c 3 192.168.56.10</span></div><div class="ln">64 bytes from 192.168.56.10: icmp_seq=1 ttl=64 time=0.41 ms</div><div class="ln">64 bytes from 192.168.56.10: icmp_seq=2 ttl=64 time=0.38 ms</div><div class="ln">64 bytes from 192.168.56.10: icmp_seq=3 ttl=64 time=0.44 ms</div><div class="ln">--- 192.168.56.10 ping statistics ---</div><div class="ln">3 packets transmitted, 3 received, 0% packet loss</div><div class="ln live"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cur"></span></div></div></div>
+<div class="task"><b>▶ Practice</b> Ping your gateway 4 times and note the average latency and the TTL value.</div></div>
+<footer><span>Top 50 Linux Commands for Cybersecurity</span><span>ping</span><span>44</span></footer></section>
+<section class="slide cmd" style="--c:#79c0ff">
+<div class="left"><p class="kicker"><span class="num">37/50</span> Networking</p>
+<h2 class="mono">traceroute</h2><p class="desc">Shows each router hop between you and a destination.</p>
+<p class="syn"><code>traceroute [options] host</code></p>
+<table class="flags"><tr><td><code>-n</code></td><td>no DNS lookups (faster)</td></tr><tr><td><code>-I</code></td><td>use ICMP instead of UDP</td></tr><tr><td><code>-T</code></td><td>use TCP SYN (often passes firewalls)</td></tr></table>
+<div class="use"><b>Security use</b><p>Understand network paths and where traffic is filtered or slowed.</p></div></div>
+<div class="right"><div class="term" data-sim="38"><div class="bar"><i></i><i></i><i></i><span>kali@kali: ~</span></div>
+<div class="screen"><div class="ln"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cm">traceroute -n example.com</span></div><div class="ln">traceroute to example.com (93.184.215.14), 30 hops max</div><div class="ln"> 1  192.168.56.1   0.52 ms</div><div class="ln"> 2  10.0.2.2       1.10 ms</div><div class="ln"> 3  * * *</div><div class="ln"> 4  93.184.215.14  18.33 ms</div><div class="ln live"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cur"></span></div></div></div>
+<div class="task"><b>▶ Practice</b> Trace the route to example.com. At which hop does your local network end?</div></div>
+<footer><span>Top 50 Linux Commands for Cybersecurity</span><span>traceroute</span><span>45</span></footer></section>
+<section class="slide cmd" style="--c:#79c0ff">
+<div class="left"><p class="kicker"><span class="num">38/50</span> Networking</p>
+<h2 class="mono">dig</h2><p class="desc">Queries DNS servers for records (A, MX, TXT, NS, ...).</p>
+<p class="syn"><code>dig [@server] name [type]</code></p>
+<table class="flags"><tr><td><code>+short</code></td><td>answers only</td></tr><tr><td><code>MX / TXT / NS</code></td><td>record type</td></tr><tr><td><code>-x IP</code></td><td>reverse lookup</td></tr><tr><td><code>@8.8.8.8</code></td><td>ask a specific resolver</td></tr></table>
+<div class="use"><b>Security use</b><p>DNS reconnaissance of your own domains, and checking SPF/DMARC records for email security.</p></div></div>
+<div class="right"><div class="term" data-sim="39"><div class="bar"><i></i><i></i><i></i><span>kali@kali: ~</span></div>
+<div class="screen"><div class="ln"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cm">dig +short example.com A</span></div><div class="ln">93.184.215.14</div><div class="ln"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cm">dig +short example.com NS</span></div><div class="ln">a.iana-servers.net.</div><div class="ln">b.iana-servers.net.</div><div class="ln"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cm">dig +short example.com TXT</span></div><div class="ln">&quot;v=spf1 -all&quot;</div><div class="ln live"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cur"></span></div></div></div>
+<div class="task"><b>▶ Practice</b> Look up the MX and TXT records of a domain you own or your school&#x27;s domain.</div></div>
+<footer><span>Top 50 Linux Commands for Cybersecurity</span><span>dig</span><span>46</span></footer></section>
+<section class="slide cmd" style="--c:#79c0ff">
+<div class="left"><p class="kicker"><span class="num">39/50</span> Networking</p>
+<h2 class="mono">curl</h2><p class="desc">Transfers data to or from a URL; ideal for inspecting HTTP.</p>
+<p class="syn"><code>curl [options] URL</code></p>
+<table class="flags"><tr><td><code>-I</code></td><td>fetch headers only</td></tr><tr><td><code>-v</code></td><td>verbose: show the whole exchange</td></tr><tr><td><code>-L</code></td><td>follow redirects</td></tr><tr><td><code>-o file</code></td><td>save to file</td></tr></table>
+<div class="use"><b>Security use</b><p>Check security headers (HSTS, CSP, X-Frame-Options) and server banners on your own sites.</p></div></div>
+<div class="right"><div class="term" data-sim="40"><div class="bar"><i></i><i></i><i></i><span>kali@kali: ~</span></div>
+<div class="screen"><div class="ln"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cm">curl -sI https://example.com</span></div><div class="ln">HTTP/2 200</div><div class="ln">content-type: text/html</div><div class="ln">cache-control: max-age=3600</div><div class="ln">server: ECAcc (nyd/D184)</div><div class="ln"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cm">curl -sI https://example.com | grep -i strict-transport</span></div><div class="ln co"># (no output → HSTS header missing)</div><div class="ln live"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cur"></span></div></div></div>
+<div class="task"><b>▶ Practice</b> Inspect the response headers of a site you own. Which security headers are missing?</div></div>
+<footer><span>Top 50 Linux Commands for Cybersecurity</span><span>curl</span><span>47</span></footer></section>
+<section class="slide cmd" style="--c:#79c0ff">
+<div class="left"><p class="kicker"><span class="num">40/50</span> Networking</p>
+<h2 class="mono">wget</h2><p class="desc">Downloads files from the web, non-interactively.</p>
+<p class="syn"><code>wget [options] URL</code></p>
+<table class="flags"><tr><td><code>-O file</code></td><td>save under a chosen name</td></tr><tr><td><code>-c</code></td><td>resume a partial download</td></tr><tr><td><code>-q</code></td><td>quiet</td></tr><tr><td><code>--spider</code></td><td>check the URL exists, download nothing</td></tr></table>
+<div class="use"><b>Security use</b><p>Fetch tools and wordlists, then verify their checksums before use.</p></div></div>
+<div class="right"><div class="term" data-sim="41"><div class="bar"><i></i><i></i><i></i><span>kali@kali: ~</span></div>
+<div class="screen"><div class="ln"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cm">wget -q https://example.com/tools/tool.tar.gz</span></div><div class="ln"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cm">wget -q https://example.com/tools/tool.tar.gz.sha256</span></div><div class="ln"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cm">sha256sum -c tool.tar.gz.sha256</span></div><div class="ln">tool.tar.gz: OK</div><div class="ln live"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cur"></span></div></div></div>
+<div class="task"><b>▶ Practice</b> Download any file with wget, then use --spider to check a URL without downloading.</div></div>
+<footer><span>Top 50 Linux Commands for Cybersecurity</span><span>wget</span><span>48</span></footer></section>
+<section class="slide cmd" style="--c:#79c0ff">
+<div class="left"><p class="kicker"><span class="num">41/50</span> Networking</p>
+<h2 class="mono">nc</h2><p class="desc">Netcat: reads and writes raw TCP/UDP connections.</p>
+<p class="syn"><code>nc [options] host port</code></p>
+<table class="flags"><tr><td><code>-z</code></td><td>scan without sending data</td></tr><tr><td><code>-v</code></td><td>verbose</td></tr><tr><td><code>-l</code></td><td>listen mode</td></tr><tr><td><code>-w sec</code></td><td>timeout</td></tr></table>
+<div class="use"><b>Security use</b><p>Quick check of whether a port is open, and simple banner checks on your own services.</p></div></div>
+<div class="right"><div class="term" data-sim="42"><div class="bar"><i></i><i></i><i></i><span>kali@kali: ~</span></div>
+<div class="screen"><div class="ln"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cm">nc -zv 192.168.56.10 22 80 443</span></div><div class="ln">Connection to 192.168.56.10 22 port [tcp/ssh] succeeded!</div><div class="ln">Connection to 192.168.56.10 80 port [tcp/http] succeeded!</div><div class="ln">nc: connect to 192.168.56.10 port 443 (tcp) failed: Connection refused</div><div class="ln"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cm">nc -v 192.168.56.10 22</span></div><div class="ln">SSH-2.0-OpenSSH_9.9p1 Debian-1</div><div class="ln">^C</div><div class="ln live"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cur"></span></div></div></div>
+<div class="task"><b>▶ Practice</b> On two lab VMs: start nc -l 4444 on one and connect to it from the other. Type a message.</div></div>
+<footer><span>Top 50 Linux Commands for Cybersecurity</span><span>nc</span><span>49</span></footer></section>
+<section class="slide cmd" style="--c:#79c0ff">
+<div class="left"><p class="kicker"><span class="num">42/50</span> Networking</p>
+<h2 class="mono">ssh</h2><p class="desc">Secure Shell: encrypted remote login and command execution.</p>
+<p class="syn"><code>ssh [options] user@host</code></p>
+<table class="flags"><tr><td><code>-i key</code></td><td>use a specific private key</td></tr><tr><td><code>-p port</code></td><td>non-default port</td></tr><tr><td><code>-L</code></td><td>local port forward</td></tr><tr><td><code>-v</code></td><td>verbose debug</td></tr></table>
+<div class="use"><b>Security use</b><p>Secure administration. Prefer key-based login and disable password and root login on servers.</p></div></div>
+<div class="right"><div class="term" data-sim="43"><div class="bar"><i></i><i></i><i></i><span>kali@kali: ~</span></div>
+<div class="screen"><div class="ln"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cm">ssh-keygen -t ed25519 -C &#x27;kali@lab&#x27;</span></div><div class="ln">Your public key has been saved in /home/kali/.ssh/id_ed25519.pub</div><div class="ln"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cm">ssh-copy-id analyst@192.168.56.10</span></div><div class="ln">Number of key(s) added: 1</div><div class="ln"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cm">ssh analyst@192.168.56.10</span></div><div class="ln">analyst@lab-web:~$</div><div class="ln live"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cur"></span></div></div></div>
+<div class="task"><b>▶ Practice</b> Create an ed25519 key pair and log into a lab VM without a password.</div></div>
+<footer><span>Top 50 Linux Commands for Cybersecurity</span><span>ssh</span><span>50</span></footer></section>
+<section class="slide cmd" style="--c:#79c0ff">
+<div class="left"><p class="kicker"><span class="num">43/50</span> Networking</p>
+<h2 class="mono">scp</h2><p class="desc">Copies files securely between hosts over SSH.</p>
+<p class="syn"><code>scp [options] source dest</code></p>
+<table class="flags"><tr><td><code>-r</code></td><td>copy directories</td></tr><tr><td><code>-P port</code></td><td>SSH port (capital P)</td></tr><tr><td><code>-i key</code></td><td>identity file</td></tr><tr><td><code>-p</code></td><td>preserve times and modes</td></tr></table>
+<div class="use"><b>Security use</b><p>Move evidence or logs off a host over an encrypted channel.</p></div></div>
+<div class="right"><div class="term" data-sim="44"><div class="bar"><i></i><i></i><i></i><span>kali@kali: ~</span></div>
+<div class="screen"><div class="ln"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cm">scp -p analyst@192.168.56.10:/var/log/apache2/access.log ~/case01/</span></div><div class="ln">access.log          100%  248KB  12.1MB/s   00:00</div><div class="ln"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cm">scp -r ~/reports analyst@192.168.56.10:~/</span></div><div class="ln">summary.pdf         100%   92KB   9.8MB/s   00:00</div><div class="ln live"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cur"></span></div></div></div>
+<div class="task"><b>▶ Practice</b> Copy a file from your Kali VM to another lab VM, then copy it back with a new name.</div></div>
+<footer><span>Top 50 Linux Commands for Cybersecurity</span><span>scp</span><span>51</span></footer></section>
+<section class="slide cmd" style="--c:#79c0ff">
+<div class="left"><p class="kicker"><span class="num">44/50</span> Networking</p>
+<h2 class="mono">nmap</h2><p class="desc">Network mapper: discovers hosts, open ports and service versions.</p>
+<p class="syn"><code>nmap [options] target</code></p>
+<table class="flags"><tr><td><code>-sn</code></td><td>host discovery only (no port scan)</td></tr><tr><td><code>-sV</code></td><td>detect service versions</td></tr><tr><td><code>-p</code></td><td>choose ports (e.g. -p 1-1000)</td></tr><tr><td><code>-oN file</code></td><td>save output</td></tr></table>
+<div class="use"><b>Security use</b><p>Inventory your own network and verify firewall rules. Only scan systems you own or are authorised to test.</p></div></div>
+<div class="right"><div class="term" data-sim="45"><div class="bar"><i></i><i></i><i></i><span>kali@kali: ~</span></div>
+<div class="screen"><div class="ln"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cm">nmap -sn 192.168.56.0/24</span></div><div class="ln">Nmap scan report for 192.168.56.1</div><div class="ln">Nmap scan report for 192.168.56.10</div><div class="ln">Nmap done: 256 IP addresses (2 hosts up)</div><div class="ln"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cm">nmap -sV -p 22,80,443 192.168.56.10</span></div><div class="ln">PORT    STATE  SERVICE VERSION</div><div class="ln">22/tcp  open   ssh     OpenSSH 9.9p1 Debian</div><div class="ln">80/tcp  open   http    Apache httpd 2.4.62</div><div class="ln">443/tcp closed https</div><div class="ln live"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cur"></span></div></div></div>
+<div class="task"><b>▶ Practice</b> Scan your own lab VM or scanme.nmap.org (explicitly allowed) and compare with ss -tulnp on the target.</div></div>
+<footer><span>Top 50 Linux Commands for Cybersecurity</span><span>nmap</span><span>52</span></footer></section>
+<section class="slide cmd" style="--c:#79c0ff">
+<div class="left"><p class="kicker"><span class="num">45/50</span> Networking</p>
+<h2 class="mono">tcpdump</h2><p class="desc">Captures and inspects network packets from the command line.</p>
+<p class="syn"><code>tcpdump [options] [filter]</code></p>
+<table class="flags"><tr><td><code>-i iface</code></td><td>interface to capture on</td></tr><tr><td><code>-n</code></td><td>no name resolution</td></tr><tr><td><code>-w file</code></td><td>write a .pcap for Wireshark</td></tr><tr><td><code>port 53</code></td><td>BPF filter expression</td></tr></table>
+<div class="use"><b>Security use</b><p>See exactly what crosses the wire: troubleshoot, verify encryption, and record evidence.</p></div></div>
+<div class="right"><div class="term" data-sim="46"><div class="bar"><i></i><i></i><i></i><span>kali@kali: ~</span></div>
+<div class="screen"><div class="ln"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cm">sudo tcpdump -i eth0 -n -c 3 port 53</span></div><div class="ln">listening on eth0, link-type EN10MB (Ethernet)</div><div class="ln">09:31:02.114 IP 192.168.56.101.40122 &gt; 192.168.56.1.53: A? example.com.</div><div class="ln">09:31:02.131 IP 192.168.56.1.53 &gt; 192.168.56.101.40122: A 93.184.215.14</div><div class="ln">3 packets captured</div><div class="ln"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cm">sudo tcpdump -i eth0 -w lab.pcap</span></div><div class="ln co"># open lab.pcap later in Wireshark</div><div class="ln live"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cur"></span></div></div></div>
+<div class="task"><b>▶ Practice</b> Capture 20 packets while running dig example.com, and identify the DNS query and answer.</div></div>
+<footer><span>Top 50 Linux Commands for Cybersecurity</span><span>tcpdump</span><span>53</span></footer></section>
+<section class="slide divider" style="--c:#ff7b72"><p class="kicker">Module 6 of 6</p>
+<h1>Security &amp; Archives</h1><p class="sub"><code>iptables</code> <code>tar</code> <code>base64</code> <code>sha256sum</code> <code>openssl</code></p><footer><span>Top 50 Linux Commands for Cybersecurity</span><span>Module 6</span><span>54</span></footer></section>
+<section class="slide cmd" style="--c:#ff7b72">
+<div class="left"><p class="kicker"><span class="num">46/50</span> Security &amp; Archives</p>
+<h2 class="mono">iptables</h2><p class="desc">Configures the Linux kernel packet-filtering firewall.</p>
+<p class="syn"><code>iptables [-t table] command [rule]</code></p>
+<table class="flags"><tr><td><code>-L -n -v</code></td><td>list rules with counters</td></tr><tr><td><code>-A / -I</code></td><td>append / insert a rule</td></tr><tr><td><code>-j ACCEPT|DROP</code></td><td>rule action</td></tr><tr><td><code>-P</code></td><td>set the chain&#x27;s default policy</td></tr></table>
+<div class="use"><b>Security use</b><p>Host hardening: allow only the services you need and drop the rest. (nftables/ufw are modern front-ends.)</p></div></div>
+<div class="right"><div class="term" data-sim="47"><div class="bar"><i></i><i></i><i></i><span>kali@kali: ~</span></div>
+<div class="screen"><div class="ln"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cm">sudo iptables -A INPUT -i lo -j ACCEPT</span></div><div class="ln"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cm">sudo iptables -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT</span></div><div class="ln"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cm">sudo iptables -A INPUT -p tcp --dport 22 -s 192.168.56.0/24 -j ACCEPT</span></div><div class="ln"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cm">sudo iptables -P INPUT DROP</span></div><div class="ln"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cm">sudo iptables -L INPUT -n --line-numbers</span></div><div class="ln">1  ACCEPT  all  --  0.0.0.0/0         0.0.0.0/0</div><div class="ln">2  ACCEPT  all  --  0.0.0.0/0         0.0.0.0/0   state RELATED,ESTABLISHED</div><div class="ln">3  ACCEPT  tcp  --  192.168.56.0/24   0.0.0.0/0   tcp dpt:22</div><div class="ln live"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cur"></span></div></div></div>
+<div class="task"><b>▶ Practice</b> On a lab VM, allow SSH only from your subnet, then verify with nmap from inside and outside it.</div></div>
+<footer><span>Top 50 Linux Commands for Cybersecurity</span><span>iptables</span><span>55</span></footer></section>
+<section class="slide cmd" style="--c:#ff7b72">
+<div class="left"><p class="kicker"><span class="num">47/50</span> Security &amp; Archives</p>
+<h2 class="mono">tar</h2><p class="desc">Bundles files into archives and extracts them, with optional compression.</p>
+<p class="syn"><code>tar [options] archive [files]</code></p>
+<table class="flags"><tr><td><code>-c / -x</code></td><td>create / extract</td></tr><tr><td><code>-z / -J</code></td><td>gzip / xz compression</td></tr><tr><td><code>-v</code></td><td>verbose</td></tr><tr><td><code>-f file</code></td><td>archive filename</td></tr><tr><td><code>-t</code></td><td>list contents</td></tr></table>
+<div class="use"><b>Security use</b><p>Package collected logs as one evidence bundle; always list (-t) an unknown archive before extracting.</p></div></div>
+<div class="right"><div class="term" data-sim="48"><div class="bar"><i></i><i></i><i></i><span>kali@kali: ~</span></div>
+<div class="screen"><div class="ln"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cm">sudo tar -czvf case01-logs.tar.gz /var/log/auth.log /var/log/syslog</span></div><div class="ln">tar: Removing leading &#x27;/&#x27; from member names</div><div class="ln">var/log/auth.log</div><div class="ln">var/log/syslog</div><div class="ln"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cm">tar -tzvf case01-logs.tar.gz</span></div><div class="ln">-rw-r----- root/adm 421888 2026-10-24 09:12 var/log/auth.log</div><div class="ln">-rw-r----- root/adm 1153024 2026-10-24 09:12 var/log/syslog</div><div class="ln live"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cur"></span></div></div></div>
+<div class="task"><b>▶ Practice</b> Archive a folder with tar -czf, list it with -t, and extract it into a new directory.</div></div>
+<footer><span>Top 50 Linux Commands for Cybersecurity</span><span>tar</span><span>56</span></footer></section>
+<section class="slide cmd" style="--c:#ff7b72">
+<div class="left"><p class="kicker"><span class="num">48/50</span> Security &amp; Archives</p>
+<h2 class="mono">base64</h2><p class="desc">Encodes or decodes data in Base64 text form.</p>
+<p class="syn"><code>base64 [options] [file]</code></p>
+<table class="flags"><tr><td><code>-d</code></td><td>decode</td></tr><tr><td><code>-w 0</code></td><td>no line wrapping</td></tr></table>
+<div class="use"><b>Security use</b><p>Base64 is encoding, NOT encryption. Analysts decode it constantly when reviewing logs and scripts.</p></div></div>
+<div class="right"><div class="term" data-sim="49"><div class="bar"><i></i><i></i><i></i><span>kali@kali: ~</span></div>
+<div class="screen"><div class="ln"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cm">echo -n &#x27;hello lab&#x27; | base64</span></div><div class="ln">aGVsbG8gbGFi</div><div class="ln"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cm">echo &#x27;aGVsbG8gbGFi&#x27; | base64 -d</span></div><div class="ln">hello lab</div><div class="ln co"># anyone can decode it: never use base64 to &#x27;protect&#x27; a secret</div><div class="ln live"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cur"></span></div></div></div>
+<div class="task"><b>▶ Practice</b> Encode your name in Base64, then decode it. Why is this not a way to hide passwords?</div></div>
+<footer><span>Top 50 Linux Commands for Cybersecurity</span><span>base64</span><span>57</span></footer></section>
+<section class="slide cmd" style="--c:#ff7b72">
+<div class="left"><p class="kicker"><span class="num">49/50</span> Security &amp; Archives</p>
+<h2 class="mono">sha256sum</h2><p class="desc">Computes and verifies SHA-256 cryptographic hashes.</p>
+<p class="syn"><code>sha256sum [options] file</code></p>
+<table class="flags"><tr><td><code>-c file</code></td><td>check hashes listed in a file</td></tr><tr><td><code>--quiet</code></td><td>only report failures</td></tr><tr><td><code>md5sum / sha1sum</code></td><td>older (weaker) siblings</td></tr></table>
+<div class="use"><b>Security use</b><p>Verify downloads, prove evidence integrity, and look up file hashes in threat-intel databases.</p></div></div>
+<div class="right"><div class="term" data-sim="50"><div class="bar"><i></i><i></i><i></i><span>kali@kali: ~</span></div>
+<div class="screen"><div class="ln"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cm">sha256sum case01-logs.tar.gz | tee case01.sha256</span></div><div class="ln">4f2a9c...e81b  case01-logs.tar.gz</div><div class="ln"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cm">sha256sum -c case01.sha256</span></div><div class="ln">case01-logs.tar.gz: OK</div><div class="ln"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cm">echo &#x27; &#x27; &gt;&gt; case01-logs.tar.gz &amp;&amp; sha256sum -c case01.sha256</span></div><div class="ln">case01-logs.tar.gz: FAILED</div><div class="ln">sha256sum: WARNING: 1 computed checksum did NOT match</div><div class="ln live"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cur"></span></div></div></div>
+<div class="task"><b>▶ Practice</b> Hash a file, change one character in it, and hash it again. How much of the hash changes?</div></div>
+<footer><span>Top 50 Linux Commands for Cybersecurity</span><span>sha256sum</span><span>58</span></footer></section>
+<section class="slide cmd" style="--c:#ff7b72">
+<div class="left"><p class="kicker"><span class="num">50/50</span> Security &amp; Archives</p>
+<h2 class="mono">openssl</h2><p class="desc">A toolkit for TLS, certificates, hashing and encryption.</p>
+<p class="syn"><code>openssl [command] [options]</code></p>
+<table class="flags"><tr><td><code>s_client -connect</code></td><td>inspect a server&#x27;s TLS</td></tr><tr><td><code>x509 -text</code></td><td>read certificate details</td></tr><tr><td><code>rand -hex N</code></td><td>generate random bytes</td></tr><tr><td><code>enc -aes-256-cbc</code></td><td>encrypt a file</td></tr></table>
+<div class="use"><b>Security use</b><p>Check certificate expiry and TLS configuration of your services; generate strong random secrets.</p></div></div>
+<div class="right"><div class="term" data-sim="51"><div class="bar"><i></i><i></i><i></i><span>kali@kali: ~</span></div>
+<div class="screen"><div class="ln"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cm">echo | openssl s_client -connect example.com:443 2&gt;/dev/null | openssl x509 -noout -dates</span></div><div class="ln">notBefore=Jan 15 00:00:00 2026 GMT</div><div class="ln">notAfter=Jan 15 23:59:59 2027 GMT</div><div class="ln"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cm">openssl rand -hex 16</span></div><div class="ln">9b1f0c7e3a5d42e8b6c1f09a7d3e5b24</div><div class="ln live"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cur"></span></div></div></div>
+<div class="task"><b>▶ Practice</b> Check the certificate expiry date of a website you use daily with openssl s_client.</div></div>
+<footer><span>Top 50 Linux Commands for Cybersecurity</span><span>openssl</span><span>59</span></footer></section>
+<section class="slide">
+<p class="kicker">Final lab</p><h2>Put it together: a mini investigation</h2>
+<div class="two"><div><ol class="big">
+<li>Who has logged in, and who failed? <code>grep · awk · sort · uniq</code></li>
+<li>What is listening, and which process owns it? <code>ss · lsof · ps</code></li>
+<li>Anything scheduled or recently changed? <code>crontab · find</code></li>
+<li>Package the evidence and prove its integrity. <code>tar · sha256sum</code></li>
+<li>Harden: disable unused services, firewall the rest. <code>systemctl · iptables</code></li></ol></div>
+<div class="term" data-sim="52"><div class="bar"><i></i><i></i><i></i><span>case01</span></div>
+<div class="screen"><div class="ln"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cm">sudo grep &#x27;Failed password&#x27; /var/log/auth.log \</span></div><div class="ln cm">    | awk &#x27;{print $(NF-3)}&#x27; | sort | uniq -c | sort -rn | head -3</div><div class="ln">     29 192.168.56.23</div><div class="ln"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cm">sudo ss -tulnp | grep LISTEN | wc -l</span></div><div class="ln">3</div><div class="ln"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cm">find /etc -mtime -1 -type f</span></div><div class="ln">/etc/hosts</div><div class="ln"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cm">sudo tar -czf case.tgz /var/log/auth.log &amp;&amp; sha256sum case.tgz</span></div><div class="ln">4f2a9c...e81b  case.tgz</div><div class="ln live"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cur"></span></div></div></div></div>
+<footer><span>Top 50 Linux Commands for Cybersecurity</span><span>Final lab</span><span>60</span></footer></section>
+<section class="slide cover">
+<div class="cv-left"><p class="kicker">Recap</p><h1>Keep practising</h1>
+<p class="sub">Read the manual for any command with <code>man &lt;command&gt;</code> or <code>&lt;command&gt; --help</code>. Repeat each practice task until you can do it without the slide.</p>
+<p class="meta">Next steps: shell scripting · log analysis with journalctl · Wireshark · hardening benchmarks (CIS)</p></div>
+<div class="term" data-sim="53"><div class="bar"><i></i><i></i><i></i><span>kali@kali: ~</span></div>
+<div class="screen"><div class="ln"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cm">man grep | head -4</span></div><div class="ln">GREP(1)              User Commands              GREP(1)</div><div class="ln">&nbsp;</div><div class="ln">NAME</div><div class="ln">       grep - print lines that match patterns</div><div class="ln"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cm">history | wc -l</span></div><div class="ln">50</div><div class="ln"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cm">exit</span></div><div class="ln live"><span class="pr">kali@kali</span><span class="pc">:~$</span> <span class="cur"></span></div></div></div>
+<footer><span>Top 50 Linux Commands for Cybersecurity</span><span>Recap</span><span>61</span></footer></section>
+<script type="application/json" id="sim-data">{"sims": [{"cmd": null, "ex": [["whoami", ["student"]], ["cat goals.txt", ["1. Navigate and read any Linux system", "2. Analyse logs like an investigator", "3. Audit users, services and ports", "4. Harden and verify a host"]], ["echo 'lets begin'", ["lets begin"]]]}, {"cmd": null, "ex": [["ip -br a", ["eth0  UP  192.168.56.101/24   # Kali", "# target VM: 192.168.56.10 (lab-web)"]], ["ping -c 1 192.168.56.10", ["64 bytes from 192.168.56.10: ttl=64 time=0.4 ms", "# ready."]]]}, {"cmd": "pwd", "ex": [["pwd", ["/home/kali"]], ["cd /var/log && pwd", ["/var/log"]], ["cd /tmp/link-to-logs && pwd -P", ["/var/log"]]]}, {"cmd": "ls", "ex": [["ls -lah ~", ["drwx------ 18 kali kali 4.0K Oct 24 09:12 .", "-rw-------  1 kali kali 8.2K Oct 24 09:10 .bash_history", "drwx------  2 kali kali 4.0K Oct 20 14:01 .ssh", "-rw-r--r--  1 kali kali  220 Oct  1 10:00 .bashrc", "drwxr-xr-x  2 kali kali 4.0K Oct 23 18:44 Desktop"]], ["ls -lt /var/log | head -3", ["total 2140", "-rw-r-----  1 root adm   412K Oct 24 09:12 auth.log", "-rw-r-----  1 root adm   1.1M Oct 24 09:12 syslog"]]]}, {"cmd": "cd", "ex": [["cd /etc/ssh", []], ["pwd", ["/etc/ssh"]], ["cd -", ["/home/kali"]], ["cd ../..", []], ["pwd", ["/"]]]}, {"cmd": "cat", "ex": [["cat /etc/hosts", ["127.0.0.1   localhost", "127.0.1.1   kali", "192.168.56.10 lab-web.local"]], ["cat -n /etc/passwd | tail -3", ["  46  kali:x:1000:1000:Kali,,,:/home/kali:/usr/bin/zsh", "  47  postgres:x:122:130::/var/lib/postgresql:/bin/bash", "  48  analyst:x:1001:1001::/home/analyst:/bin/bash"]]]}, {"cmd": "cp", "ex": [["mkdir -p ~/case01", []], ["sudo cp -a /var/log/auth.log ~/case01/", []], ["ls -l ~/case01", ["-rw-r----- 1 root adm 412K Oct 24 09:12 auth.log", "# timestamp preserved from the original"]]]}, {"cmd": "mv", "ex": [["mkdir -p ~/quarantine", []], ["mv -v ~/Downloads/invoice.pdf.sh ~/quarantine/", ["renamed '/home/kali/Downloads/invoice.pdf.sh' -> '/home/kali/quarantine/invoice.pdf.sh'"]], ["chmod 000 ~/quarantine/invoice.pdf.sh", []]]}, {"cmd": "rm", "ex": [["ls ~/lab-tmp", ["notes.txt  scan-old.xml  test.log"]], ["rm -iv ~/lab-tmp/*.log", ["rm: remove regular file 'test.log'? y", "removed '/home/kali/lab-tmp/test.log'"]]]}, {"cmd": "find", "ex": [["find / -perm -4000 -type f 2>/dev/null | head -4", ["/usr/bin/passwd", "/usr/bin/sudo", "/usr/bin/mount", "/usr/bin/su"]], ["find /etc -mtime -1 -type f 2>/dev/null", ["/etc/hosts"]], ["find /tmp -perm -o+w -type f", ["/tmp/build.lock"]]]}, {"cmd": "file", "ex": [["file photo.jpg report.pdf invoice.pdf.sh", ["photo.jpg:        JPEG image data, JFIF standard 1.01", "report.pdf:       PDF document, version 1.7", "invoice.pdf.sh:   Bourne-Again shell script, ASCII text executable"]], ["file -i /usr/bin/ls", ["/usr/bin/ls: application/x-pie-executable; charset=binary"]]]}, {"cmd": "grep", "ex": [["sudo grep -c 'Failed password' /var/log/auth.log", ["37"]], ["sudo grep 'Failed password' /var/log/auth.log | tail -2", ["Oct 24 08:51:02 kali sshd[2210]: Failed password for root from 192.168.56.23 port 50412", "Oct 24 08:51:05 kali sshd[2210]: Failed password for root from 192.168.56.23 port 50418"]], ["grep -rEi 'password|secret' ~/project/config", ["config/app.env:DB_PASSWORD=TODO_change_me"]]]}, {"cmd": "awk", "ex": [["awk -F: '$7 ~ /bash|zsh/ {print $1}' /etc/passwd", ["root", "kali", "postgres", "analyst"]], ["sudo grep 'Failed password' /var/log/auth.log | awk '{print $(NF-3)}' | head -3", ["192.168.56.23", "192.168.56.23", "192.168.56.41"]]]}, {"cmd": "sed", "ex": [["sed -E 's/[0-9]+\\.[0-9]+\\.[0-9]+\\.[0-9]+/x.x.x.x/g' auth-sample.log | head -2", ["Oct 24 08:51:02 sshd[2210]: Failed password for root from x.x.x.x port 50412", "Oct 24 08:51:05 sshd[2210]: Failed password for root from x.x.x.x port 50418"]], ["sed -e '/^#/d' -e '/^$/d' /etc/ssh/sshd_config", ["Include /etc/ssh/sshd_config.d/*.conf", "KbdInteractiveAuthentication no", "UsePAM yes", "X11Forwarding yes"]]]}, {"cmd": "cut", "ex": [["cut -d: -f1,6 /etc/passwd | tail -3", ["kali:/home/kali", "postgres:/var/lib/postgresql", "analyst:/home/analyst"]], ["cut -d, -f2 logins.csv | head -3", ["src_ip", "192.168.56.23", "192.168.56.41"]]]}, {"cmd": "sort", "ex": [["du -sh /var/log/* 2>/dev/null | sort -rh | head -4", ["52M  /var/log/journal", "1.1M /var/log/syslog", "412K /var/log/auth.log", "96K  /var/log/dpkg.log"]]]}, {"cmd": "uniq", "ex": [["sudo grep 'Failed password' /var/log/auth.log | awk '{print $(NF-3)}' | sort | uniq -c | sort -rn", ["     29 192.168.56.23", "      6 192.168.56.41", "      2 192.168.56.7"]]]}, {"cmd": "wc", "ex": [["wc -l /etc/passwd", ["48 /etc/passwd"]], ["sudo grep -c 'Accepted' /var/log/auth.log", ["5"]], ["ls /usr/bin | wc -l", ["2431"]]]}, {"cmd": "tail", "ex": [["sudo tail -f /var/log/auth.log", ["Oct 24 09:14:10 kali sshd[2391]: Accepted publickey for kali from 192.168.56.1", "Oct 24 09:14:10 kali sshd[2391]: pam_unix(sshd:session): session opened for user kali", "Oct 24 09:15:02 kali sudo:   kali : TTY=pts/1 ; COMMAND=/usr/bin/systemctl status ssh", "^C"]]]}, {"cmd": "strings", "ex": [["strings -n 8 ./unknown-sample | grep -Ei 'http|/etc|/tmp' ", ["http://update.example.com/check", "/etc/cron.d/", "/tmp/.cache_x", "# indicators worth noting in the report"]]]}, {"cmd": "xxd", "ex": [["xxd -l 16 /usr/bin/ls", ["00000000: 7f45 4c46 0201 0100 0000 0000 0000 0000  .ELF............"]], ["xxd -l 8 photo.jpg", ["00000000: ffd8 ffe0 0010 4a46                      ......JF"]], ["xxd -l 4 report.pdf", ["00000000: 2550 4446                                %PDF"]]]}, {"cmd": "whoami", "ex": [["whoami", ["kali"]], ["sudo whoami", ["root"]]]}, {"cmd": "id", "ex": [["id", ["uid=1000(kali) gid=1000(kali) groups=1000(kali),4(adm),27(sudo),100(users)"]], ["id analyst", ["uid=1001(analyst) gid=1001(analyst) groups=1001(analyst)"]]]}, {"cmd": "sudo", "ex": [["sudo -l", ["User kali may run the following commands on kali:", "    (ALL : ALL) ALL"]], ["sudo grep -v '^#' /etc/sudoers | grep -v '^$' | tail -2", ["root    ALL=(ALL:ALL) ALL", "%sudo   ALL=(ALL:ALL) ALL"]]]}, {"cmd": "su", "ex": [["sudo su - analyst", ["analyst@kali:~$ whoami", "analyst", "analyst@kali:~$ cat /var/log/auth.log", "cat: /var/log/auth.log: Permission denied", "analyst@kali:~$ exit"]]]}, {"cmd": "chmod", "ex": [["ls -l ~/.ssh/id_ed25519", ["-rw-r--r-- 1 kali kali 411 Oct 20 14:01 /home/kali/.ssh/id_ed25519"]], ["chmod 600 ~/.ssh/id_ed25519", []], ["ls -l ~/.ssh/id_ed25519", ["-rw------- 1 kali kali 411 Oct 20 14:01 /home/kali/.ssh/id_ed25519", "# 6 = rw for owner, 0 for group, 0 for others"]]]}, {"cmd": "chown", "ex": [["ls -l /var/www/html/index.html", ["-rw-r--r-- 1 kali kali 10701 Oct 22 11:30 index.html"]], ["sudo chown -R www-data:www-data /var/www/html", []], ["ls -l /var/www/html/index.html", ["-rw-r--r-- 1 www-data www-data 10701 Oct 22 11:30 index.html"]]]}, {"cmd": "ps", "ex": [["ps aux --sort=-%cpu | head -4", ["USER   PID %CPU %MEM COMMAND", "kali  2511 12.4  3.1 /usr/bin/firefox-esr", "root   812  1.2  0.4 /usr/sbin/sshd -D", "kali  2390  0.6  0.2 -zsh"]], ["ps -ef --forest | grep -A1 sshd | head -3", ["root   812     1  /usr/sbin/sshd -D", "root  2391   812   \\_ sshd: kali [priv]"]]]}, {"cmd": "top", "ex": [["top -b -n 1 | head -8", ["top - 09:20:11 up 2:14,  2 users,  load average: 0.42, 0.31, 0.25", "Tasks: 214 total,   1 running, 213 sleeping", "%Cpu(s):  6.1 us,  1.9 sy, 91.8 id", "MiB Mem :   7951.4 total,   3120.8 free", "", "  PID USER   PR  NI  %CPU %MEM  COMMAND", " 2511 kali   20   0  12.4  3.1  firefox-esr"]]]}, {"cmd": "kill", "ex": [["sleep 600 &", ["[1] 3042"]], ["ps -p 3042 -o pid,user,cmd", ["  PID USER  CMD", " 3042 kali  sleep 600"]], ["kill 3042", ["[1]  + terminated  sleep 600"]]]}, {"cmd": "lsof", "ex": [["sudo lsof -i :22", ["COMMAND  PID USER  FD  TYPE  NODE NAME", "sshd     812 root  3u  IPv4  TCP  *:ssh (LISTEN)", "sshd    2391 root  4u  IPv4  TCP  kali:ssh->192.168.56.1:51522 (ESTABLISHED)"]], ["sudo lsof -p 812 | grep txt", ["sshd 812 root txt REG 8,1 917192 /usr/sbin/sshd"]]]}, {"cmd": "uname", "ex": [["uname -a", ["Linux kali 6.11.2-amd64 #1 SMP PREEMPT_DYNAMIC Kali 6.11.2-1kali1 x86_64 GNU/Linux"]], ["uname -r", ["6.11.2-amd64"]], ["cat /etc/os-release | head -2", ["PRETTY_NAME=\"Kali GNU/Linux Rolling\"", "NAME=\"Kali GNU/Linux\""]]]}, {"cmd": "systemctl", "ex": [["systemctl status ssh --no-pager | head -3", ["\u25cf ssh.service - OpenBSD Secure Shell server", "     Loaded: loaded (/usr/lib/systemd/system/ssh.service; disabled)", "     Active: active (running) since Fri 2026-10-24 07:06:12"]], ["sudo systemctl disable --now ssh", ["Removed '/etc/systemd/system/multi-user.target.wants/ssh.service'."]]]}, {"cmd": "journalctl", "ex": [["journalctl -u ssh --since '1 hour ago' --no-pager | tail -3", ["Oct 24 08:51:05 kali sshd[2210]: Failed password for root from 192.168.56.23 port 50418", "Oct 24 08:51:09 kali sshd[2210]: Connection closed by 192.168.56.23 port 50418", "Oct 24 09:14:10 kali sshd[2391]: Accepted publickey for kali from 192.168.56.1"]], ["journalctl -p err -b --no-pager | wc -l", ["4"]]]}, {"cmd": "crontab", "ex": [["crontab -l", ["# m h dom mon dow command", "0 2 * * * /home/kali/scripts/backup.sh"]], ["ls /etc/cron.d", ["e2scrub_all  php  sysstat"]], ["sudo crontab -l -u root", ["no crontab for root"]]]}, {"cmd": "ip", "ex": [["ip -br a", ["lo        UNKNOWN  127.0.0.1/8", "eth0      UP       192.168.56.101/24"]], ["ip r", ["default via 192.168.56.1 dev eth0", "192.168.56.0/24 dev eth0 proto kernel src 192.168.56.101"]], ["ip neigh", ["192.168.56.1 dev eth0 lladdr 0a:00:27:00:00:00 REACHABLE"]]]}, {"cmd": "ss", "ex": [["sudo ss -tulnp", ["Netid State  Local Address:Port  Process", "tcp   LISTEN 0.0.0.0:22          users:((\"sshd\",pid=812))", "tcp   LISTEN 127.0.0.1:5432      users:((\"postgres\",pid=901))", "tcp   LISTEN 0.0.0.0:80          users:((\"apache2\",pid=1033))", "udp   UNCONN 0.0.0.0:68          users:((\"dhclient\",pid=640))"]]]}, {"cmd": "ping", "ex": [["ping -c 3 192.168.56.10", ["64 bytes from 192.168.56.10: icmp_seq=1 ttl=64 time=0.41 ms", "64 bytes from 192.168.56.10: icmp_seq=2 ttl=64 time=0.38 ms", "64 bytes from 192.168.56.10: icmp_seq=3 ttl=64 time=0.44 ms", "--- 192.168.56.10 ping statistics ---", "3 packets transmitted, 3 received, 0% packet loss"]]]}, {"cmd": "traceroute", "ex": [["traceroute -n example.com", ["traceroute to example.com (93.184.215.14), 30 hops max", " 1  192.168.56.1   0.52 ms", " 2  10.0.2.2       1.10 ms", " 3  * * *", " 4  93.184.215.14  18.33 ms"]]]}, {"cmd": "dig", "ex": [["dig +short example.com A", ["93.184.215.14"]], ["dig +short example.com NS", ["a.iana-servers.net.", "b.iana-servers.net."]], ["dig +short example.com TXT", ["\"v=spf1 -all\""]]]}, {"cmd": "curl", "ex": [["curl -sI https://example.com", ["HTTP/2 200", "content-type: text/html", "cache-control: max-age=3600", "server: ECAcc (nyd/D184)"]], ["curl -sI https://example.com | grep -i strict-transport", ["# (no output \u2192 HSTS header missing)"]]]}, {"cmd": "wget", "ex": [["wget -q https://example.com/tools/tool.tar.gz", []], ["wget -q https://example.com/tools/tool.tar.gz.sha256", []], ["sha256sum -c tool.tar.gz.sha256", ["tool.tar.gz: OK"]]]}, {"cmd": "nc", "ex": [["nc -zv 192.168.56.10 22 80 443", ["Connection to 192.168.56.10 22 port [tcp/ssh] succeeded!", "Connection to 192.168.56.10 80 port [tcp/http] succeeded!", "nc: connect to 192.168.56.10 port 443 (tcp) failed: Connection refused"]], ["nc -v 192.168.56.10 22", ["SSH-2.0-OpenSSH_9.9p1 Debian-1", "^C"]]]}, {"cmd": "ssh", "ex": [["ssh-keygen -t ed25519 -C 'kali@lab'", ["Your public key has been saved in /home/kali/.ssh/id_ed25519.pub"]], ["ssh-copy-id analyst@192.168.56.10", ["Number of key(s) added: 1"]], ["ssh analyst@192.168.56.10", ["analyst@lab-web:~$"]]]}, {"cmd": "scp", "ex": [["scp -p analyst@192.168.56.10:/var/log/apache2/access.log ~/case01/", ["access.log          100%  248KB  12.1MB/s   00:00"]], ["scp -r ~/reports analyst@192.168.56.10:~/", ["summary.pdf         100%   92KB   9.8MB/s   00:00"]]]}, {"cmd": "nmap", "ex": [["nmap -sn 192.168.56.0/24", ["Nmap scan report for 192.168.56.1", "Nmap scan report for 192.168.56.10", "Nmap done: 256 IP addresses (2 hosts up)"]], ["nmap -sV -p 22,80,443 192.168.56.10", ["PORT    STATE  SERVICE VERSION", "22/tcp  open   ssh     OpenSSH 9.9p1 Debian", "80/tcp  open   http    Apache httpd 2.4.62", "443/tcp closed https"]]]}, {"cmd": "tcpdump", "ex": [["sudo tcpdump -i eth0 -n -c 3 port 53", ["listening on eth0, link-type EN10MB (Ethernet)", "09:31:02.114 IP 192.168.56.101.40122 > 192.168.56.1.53: A? example.com.", "09:31:02.131 IP 192.168.56.1.53 > 192.168.56.101.40122: A 93.184.215.14", "3 packets captured"]], ["sudo tcpdump -i eth0 -w lab.pcap", ["# open lab.pcap later in Wireshark"]]]}, {"cmd": "iptables", "ex": [["sudo iptables -A INPUT -i lo -j ACCEPT", []], ["sudo iptables -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT", []], ["sudo iptables -A INPUT -p tcp --dport 22 -s 192.168.56.0/24 -j ACCEPT", []], ["sudo iptables -P INPUT DROP", []], ["sudo iptables -L INPUT -n --line-numbers", ["1  ACCEPT  all  --  0.0.0.0/0         0.0.0.0/0", "2  ACCEPT  all  --  0.0.0.0/0         0.0.0.0/0   state RELATED,ESTABLISHED", "3  ACCEPT  tcp  --  192.168.56.0/24   0.0.0.0/0   tcp dpt:22"]]]}, {"cmd": "tar", "ex": [["sudo tar -czvf case01-logs.tar.gz /var/log/auth.log /var/log/syslog", ["tar: Removing leading '/' from member names", "var/log/auth.log", "var/log/syslog"]], ["tar -tzvf case01-logs.tar.gz", ["-rw-r----- root/adm 421888 2026-10-24 09:12 var/log/auth.log", "-rw-r----- root/adm 1153024 2026-10-24 09:12 var/log/syslog"]]]}, {"cmd": "base64", "ex": [["echo -n 'hello lab' | base64", ["aGVsbG8gbGFi"]], ["echo 'aGVsbG8gbGFi' | base64 -d", ["hello lab", "# anyone can decode it: never use base64 to 'protect' a secret"]]]}, {"cmd": "sha256sum", "ex": [["sha256sum case01-logs.tar.gz | tee case01.sha256", ["4f2a9c...e81b  case01-logs.tar.gz"]], ["sha256sum -c case01.sha256", ["case01-logs.tar.gz: OK"]], ["echo ' ' >> case01-logs.tar.gz && sha256sum -c case01.sha256", ["case01-logs.tar.gz: FAILED", "sha256sum: WARNING: 1 computed checksum did NOT match"]]]}, {"cmd": "openssl", "ex": [["echo | openssl s_client -connect example.com:443 2>/dev/null | openssl x509 -noout -dates", ["notBefore=Jan 15 00:00:00 2026 GMT", "notAfter=Jan 15 23:59:59 2027 GMT"]], ["openssl rand -hex 16", ["9b1f0c7e3a5d42e8b6c1f09a7d3e5b24"]]]}, {"cmd": null, "ex": [["sudo grep 'Failed password' /var/log/auth.log | awk '{print $(NF-3)}' | sort | uniq -c | sort -rn | head -3", ["     29 192.168.56.23"]], ["sudo ss -tulnp | grep LISTEN | wc -l", ["3"]], ["find /etc -mtime -1 -type f", ["/etc/hosts"]], ["sudo tar -czf case.tgz /var/log/auth.log && sha256sum case.tgz", ["4f2a9c...e81b  case.tgz"]]]}, {"cmd": null, "ex": [["man grep | head -4", ["GREP(1)              User Commands              GREP(1)", "", "NAME", "       grep - print lines that match patterns"]], ["history | wc -l", ["50"]], ["exit", []]]}], "info": {"pwd": {"desc": "Prints the full path of the directory you are currently in.", "syntax": "pwd [-P]", "flags": [["-P", "show the physical path (resolve symlinks)"], ["-L", "show the logical path (default)"]], "ex": ["pwd", "cd /var/log && pwd", "cd /tmp/link-to-logs && pwd -P"]}, "ls": {"desc": "Lists directory contents, including hidden files and permissions.", "syntax": "ls [options] [path]", "flags": [["-l", "long format: permissions, owner, size, date"], ["-a", "include hidden (dot) files"], ["-h", "human-readable sizes"], ["-t", "sort by modification time"]], "ex": ["ls -lah ~", "ls -lt /var/log | head -3"]}, "cd": {"desc": "Changes the current working directory.", "syntax": "cd [directory]", "flags": [["cd ~", "go to your home directory"], ["cd -", "jump back to the previous directory"], ["cd ..", "go up one level"], ["cd /", "go to the filesystem root"]], "ex": ["cd /etc/ssh", "pwd", "cd -", "cd ../..", "pwd"]}, "cat": {"desc": "Concatenates files and prints them to the terminal.", "syntax": "cat [options] file...", "flags": [["-n", "number every line"], ["-A", "show hidden characters (tabs, line ends)"], ["-s", "squeeze repeated blank lines"]], "ex": ["cat /etc/hosts", "cat -n /etc/passwd | tail -3"]}, "cp": {"desc": "Copies files and directories.", "syntax": "cp [options] source dest", "flags": [["-r", "copy directories recursively"], ["-p", "preserve mode, owner and timestamps"], ["-a", "archive mode (recursive + preserve)"], ["-i", "ask before overwriting"]], "ex": ["mkdir -p ~/case01", "sudo cp -a /var/log/auth.log ~/case01/", "ls -l ~/case01"]}, "mv": {"desc": "Moves or renames files and directories.", "syntax": "mv [options] source dest", "flags": [["-i", "prompt before overwrite"], ["-n", "never overwrite"], ["-v", "verbose: show what was moved"]], "ex": ["mkdir -p ~/quarantine", "mv -v ~/Downloads/invoice.pdf.sh ~/quarantine/", "chmod 000 ~/quarantine/invoice.pdf.sh"]}, "rm": {"desc": "Removes files or directories. There is no recycle bin.", "syntax": "rm [options] file...", "flags": [["-i", "ask before every removal"], ["-r", "remove directories recursively"], ["-f", "force, ignore missing files"], ["-v", "verbose"]], "ex": ["ls ~/lab-tmp", "rm -iv ~/lab-tmp/*.log"]}, "find": {"desc": "Searches the filesystem by name, type, size, owner, time or permission.", "syntax": "find [path] [tests] [actions]", "flags": [["-name", "match a filename pattern"], ["-perm", "match permissions (e.g. -4000 for SUID)"], ["-mtime", "modified N days ago"], ["-user", "owned by a user"]], "ex": ["find / -perm -4000 -type f 2>/dev/null | head -4", "find /etc -mtime -1 -type f 2>/dev/null", "find /tmp -perm -o+w -type f"]}, "file": {"desc": "Identifies a file's real type by its content, not its extension.", "syntax": "file [options] file...", "flags": [["-b", "brief: omit the filename"], ["-i", "print the MIME type"], ["-z", "look inside compressed files"]], "ex": ["file photo.jpg report.pdf invoice.pdf.sh", "file -i /usr/bin/ls"]}, "grep": {"desc": "Searches text for lines matching a pattern or regular expression.", "syntax": "grep [options] pattern [file...]", "flags": [["-i", "case-insensitive"], ["-r", "search directories recursively"], ["-v", "invert: show non-matching lines"], ["-E", "extended regex"], ["-c", "count matches"]], "ex": ["sudo grep -c 'Failed password' /var/log/auth.log", "sudo grep 'Failed password' /var/log/auth.log | tail -2", "grep -rEi 'password|secret' ~/project/config"]}, "awk": {"desc": "A pattern-scanning language for extracting and reshaping columns of text.", "syntax": "awk 'pattern { action }' file", "flags": [["-F", "set the field separator"], ["$1, $NF", "first field, last field"], ["NR", "current line number"]], "ex": ["awk -F: '$7 ~ /bash|zsh/ {print $1}' /etc/passwd", "sudo grep 'Failed password' /var/log/auth.log | awk '{print $(NF-3)}' | head -3"]}, "sed": {"desc": "A stream editor: find-and-replace and line edits on text streams.", "syntax": "sed [options] 'script' file", "flags": [["s/a/b/g", "substitute a with b globally"], ["-n 'Np'", "print only line N"], ["-i", "edit the file in place"], ["/re/d", "delete matching lines"]], "ex": ["sed -E 's/[0-9]+\\.[0-9]+\\.[0-9]+\\.[0-9]+/x.x.x.x/g' auth-sample.log | head -2", "sed -e '/^#/d' -e '/^$/d' /etc/ssh/sshd_config"]}, "cut": {"desc": "Extracts sections (fields or characters) from each line.", "syntax": "cut [options] file", "flags": [["-d", "field delimiter"], ["-f", "field numbers to keep"], ["-c", "character positions to keep"]], "ex": ["cut -d: -f1,6 /etc/passwd | tail -3", "cut -d, -f2 logins.csv | head -3"]}, "sort": {"desc": "Sorts lines alphabetically, numerically or by a chosen column.", "syntax": "sort [options] file", "flags": [["-n", "numeric sort"], ["-r", "reverse order"], ["-k", "sort by a column"], ["-u", "unique lines only"], ["-h", "human sizes (1K, 2M)"]], "ex": ["du -sh /var/log/* 2>/dev/null | sort -rh | head -4"]}, "uniq": {"desc": "Filters or counts adjacent duplicate lines (sort first).", "syntax": "uniq [options] [file]", "flags": [["-c", "prefix lines with their count"], ["-d", "only show duplicated lines"], ["-u", "only show unique lines"]], "ex": ["sudo grep 'Failed password' /var/log/auth.log | awk '{print $(NF-3)}' | sort | uniq -c | sort -rn"]}, "wc": {"desc": "Counts lines, words and bytes.", "syntax": "wc [options] file", "flags": [["-l", "count lines"], ["-w", "count words"], ["-c", "count bytes"]], "ex": ["wc -l /etc/passwd", "sudo grep -c 'Accepted' /var/log/auth.log", "ls /usr/bin | wc -l"]}, "tail": {"desc": "Shows the end of a file and can follow it live as it grows.", "syntax": "tail [options] file", "flags": [["-n N", "show the last N lines"], ["-f", "follow new lines in real time"], ["-F", "follow even if the file is rotated"]], "ex": ["sudo tail -f /var/log/auth.log"]}, "strings": {"desc": "Prints the readable text sequences hidden inside binary files.", "syntax": "strings [options] file", "flags": [["-n N", "minimum string length"], ["-a", "scan the whole file"], ["-e l", "16-bit little-endian (Windows) strings"]], "ex": ["strings -n 8 ./unknown-sample | grep -Ei 'http|/etc|/tmp' "]}, "xxd": {"desc": "Creates a hex dump of a file (or reverses one).", "syntax": "xxd [options] file", "flags": [["-l N", "only dump N bytes"], ["-s N", "start at offset N"], ["-r", "reverse a hex dump back to binary"]], "ex": ["xxd -l 16 /usr/bin/ls", "xxd -l 8 photo.jpg", "xxd -l 4 report.pdf"]}, "whoami": {"desc": "Prints the username of the current effective user.", "syntax": "whoami", "flags": [["(none)", "no common options; same as id -un"]], "ex": ["whoami", "sudo whoami"]}, "id": {"desc": "Shows user ID, group ID and all group memberships.", "syntax": "id [user]", "flags": [["-u", "user ID only"], ["-g", "primary group ID only"], ["-G", "all group IDs"], ["-n", "names instead of numbers"]], "ex": ["id", "id analyst"]}, "sudo": {"desc": "Runs a single command with another user's (usually root's) privileges.", "syntax": "sudo [options] command", "flags": [["-l", "list what you are allowed to run"], ["-u user", "run as a specific user"], ["-i", "start a root login shell"], ["-k", "forget cached credentials"]], "ex": ["sudo -l", "sudo grep -v '^#' /etc/sudoers | grep -v '^$' | tail -2"]}, "su": {"desc": "Switches to another user account in the current terminal.", "syntax": "su [options] [user]", "flags": [["-", "full login environment of the target user"], ["-c cmd", "run one command as that user"], ["-s shell", "use a specific shell"]], "ex": ["sudo su - analyst"]}, "chmod": {"desc": "Changes file permission bits (read, write, execute).", "syntax": "chmod [options] mode file", "flags": [["u/g/o", "user, group, others"], ["+x / -w", "add execute, remove write"], ["600, 755", "octal modes"], ["-R", "recursive"]], "ex": ["ls -l ~/.ssh/id_ed25519", "chmod 600 ~/.ssh/id_ed25519", "ls -l ~/.ssh/id_ed25519"]}, "chown": {"desc": "Changes the owner and group of files.", "syntax": "chown [options] user[:group] file", "flags": [["user:group", "set both owner and group"], ["-R", "recursive"], ["--reference=f", "copy ownership from file f"]], "ex": ["ls -l /var/www/html/index.html", "sudo chown -R www-data:www-data /var/www/html", "ls -l /var/www/html/index.html"]}, "ps": {"desc": "Takes a snapshot of running processes.", "syntax": "ps [options]", "flags": [["aux", "all processes, with user and CPU/RAM usage"], ["-ef", "full format listing"], ["--forest", "show parent/child tree"]], "ex": ["ps aux --sort=-%cpu | head -4", "ps -ef --forest | grep -A1 sshd | head -3"]}, "top": {"desc": "Shows a live, updating view of processes and resource usage.", "syntax": "top [options]", "flags": [["-u user", "only one user's processes"], ["-p PID", "watch specific PIDs"], ["P / M", "sort by CPU / memory (inside top)"], ["k", "kill a process (inside top)"]], "ex": ["top -b -n 1 | head -8"]}, "kill": {"desc": "Sends a signal to a process, usually to stop it.", "syntax": "kill [-signal] PID", "flags": [["-15 (TERM)", "polite stop request (default)"], ["-9 (KILL)", "force stop, cannot be ignored"], ["-l", "list all signals"], ["pkill name", "kill by name"]], "ex": ["sleep 600 &", "ps -p 3042 -o pid,user,cmd", "kill 3042"]}, "lsof": {"desc": "Lists open files: and in Linux, sockets and devices are files too.", "syntax": "lsof [options]", "flags": [["-i", "network connections"], ["-i :PORT", "who is using a port"], ["-p PID", "files opened by a process"], ["-u user", "files opened by a user"]], "ex": ["sudo lsof -i :22", "sudo lsof -p 812 | grep txt"]}, "uname": {"desc": "Prints system information such as kernel version and architecture.", "syntax": "uname [options]", "flags": [["-a", "all information"], ["-r", "kernel release"], ["-m", "machine architecture"]], "ex": ["uname -a", "uname -r", "cat /etc/os-release | head -2"]}, "systemctl": {"desc": "Controls systemd services: start, stop, enable and inspect them.", "syntax": "systemctl [command] [unit]", "flags": [["status", "is it running? recent logs"], ["start / stop", "run or halt now"], ["enable / disable", "start at boot or not"], ["list-units --type=service", "list services"]], "ex": ["systemctl status ssh --no-pager | head -3", "sudo systemctl disable --now ssh"]}, "journalctl": {"desc": "Queries the systemd journal (system and service logs).", "syntax": "journalctl [options]", "flags": [["-u unit", "logs for one service"], ["-f", "follow live"], ["--since", "time filter, e.g. '1 hour ago'"], ["-p err", "only errors and worse"]], "ex": ["journalctl -u ssh --since '1 hour ago' --no-pager | tail -3", "journalctl -p err -b --no-pager | wc -l"]}, "crontab": {"desc": "Views and edits scheduled tasks (cron jobs).", "syntax": "crontab [options]", "flags": [["-l", "list your cron jobs"], ["-e", "edit your cron jobs"], ["-u user", "act on another user (root)"], ["/etc/cron.*", "system-wide schedules"]], "ex": ["crontab -l", "ls /etc/cron.d", "sudo crontab -l -u root"]}, "ip": {"desc": "Shows and configures network interfaces, addresses and routes.", "syntax": "ip [object] [command]", "flags": [["ip a", "addresses on every interface"], ["ip r", "routing table"], ["ip link", "interface state"], ["ip neigh", "ARP / neighbour table"]], "ex": ["ip -br a", "ip r", "ip neigh"]}, "ss": {"desc": "Displays sockets: listening ports and active connections (modern netstat).", "syntax": "ss [options]", "flags": [["-t / -u", "TCP / UDP"], ["-l", "listening sockets only"], ["-n", "numeric, no name lookup"], ["-p", "show the owning process"]], "ex": ["sudo ss -tulnp"]}, "ping": {"desc": "Tests reachability and round-trip time using ICMP echo.", "syntax": "ping [options] host", "flags": [["-c N", "send N packets then stop"], ["-i sec", "interval between packets"], ["-W sec", "timeout per reply"]], "ex": ["ping -c 3 192.168.56.10"]}, "traceroute": {"desc": "Shows each router hop between you and a destination.", "syntax": "traceroute [options] host", "flags": [["-n", "no DNS lookups (faster)"], ["-I", "use ICMP instead of UDP"], ["-T", "use TCP SYN (often passes firewalls)"]], "ex": ["traceroute -n example.com"]}, "dig": {"desc": "Queries DNS servers for records (A, MX, TXT, NS, ...).", "syntax": "dig [@server] name [type]", "flags": [["+short", "answers only"], ["MX / TXT / NS", "record type"], ["-x IP", "reverse lookup"], ["@8.8.8.8", "ask a specific resolver"]], "ex": ["dig +short example.com A", "dig +short example.com NS", "dig +short example.com TXT"]}, "curl": {"desc": "Transfers data to or from a URL; ideal for inspecting HTTP.", "syntax": "curl [options] URL", "flags": [["-I", "fetch headers only"], ["-v", "verbose: show the whole exchange"], ["-L", "follow redirects"], ["-o file", "save to file"]], "ex": ["curl -sI https://example.com", "curl -sI https://example.com | grep -i strict-transport"]}, "wget": {"desc": "Downloads files from the web, non-interactively.", "syntax": "wget [options] URL", "flags": [["-O file", "save under a chosen name"], ["-c", "resume a partial download"], ["-q", "quiet"], ["--spider", "check the URL exists, download nothing"]], "ex": ["wget -q https://example.com/tools/tool.tar.gz", "wget -q https://example.com/tools/tool.tar.gz.sha256", "sha256sum -c tool.tar.gz.sha256"]}, "nc": {"desc": "Netcat: reads and writes raw TCP/UDP connections.", "syntax": "nc [options] host port", "flags": [["-z", "scan without sending data"], ["-v", "verbose"], ["-l", "listen mode"], ["-w sec", "timeout"]], "ex": ["nc -zv 192.168.56.10 22 80 443", "nc -v 192.168.56.10 22"]}, "ssh": {"desc": "Secure Shell: encrypted remote login and command execution.", "syntax": "ssh [options] user@host", "flags": [["-i key", "use a specific private key"], ["-p port", "non-default port"], ["-L", "local port forward"], ["-v", "verbose debug"]], "ex": ["ssh-keygen -t ed25519 -C 'kali@lab'", "ssh-copy-id analyst@192.168.56.10", "ssh analyst@192.168.56.10"]}, "scp": {"desc": "Copies files securely between hosts over SSH.", "syntax": "scp [options] source dest", "flags": [["-r", "copy directories"], ["-P port", "SSH port (capital P)"], ["-i key", "identity file"], ["-p", "preserve times and modes"]], "ex": ["scp -p analyst@192.168.56.10:/var/log/apache2/access.log ~/case01/", "scp -r ~/reports analyst@192.168.56.10:~/"]}, "nmap": {"desc": "Network mapper: discovers hosts, open ports and service versions.", "syntax": "nmap [options] target", "flags": [["-sn", "host discovery only (no port scan)"], ["-sV", "detect service versions"], ["-p", "choose ports (e.g. -p 1-1000)"], ["-oN file", "save output"]], "ex": ["nmap -sn 192.168.56.0/24", "nmap -sV -p 22,80,443 192.168.56.10"]}, "tcpdump": {"desc": "Captures and inspects network packets from the command line.", "syntax": "tcpdump [options] [filter]", "flags": [["-i iface", "interface to capture on"], ["-n", "no name resolution"], ["-w file", "write a .pcap for Wireshark"], ["port 53", "BPF filter expression"]], "ex": ["sudo tcpdump -i eth0 -n -c 3 port 53", "sudo tcpdump -i eth0 -w lab.pcap"]}, "iptables": {"desc": "Configures the Linux kernel packet-filtering firewall.", "syntax": "iptables [-t table] command [rule]", "flags": [["-L -n -v", "list rules with counters"], ["-A / -I", "append / insert a rule"], ["-j ACCEPT|DROP", "rule action"], ["-P", "set the chain's default policy"]], "ex": ["sudo iptables -A INPUT -i lo -j ACCEPT", "sudo iptables -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT", "sudo iptables -A INPUT -p tcp --dport 22 -s 192.168.56.0/24 -j ACCEPT", "sudo iptables -P INPUT DROP", "sudo iptables -L INPUT -n --line-numbers"]}, "tar": {"desc": "Bundles files into archives and extracts them, with optional compression.", "syntax": "tar [options] archive [files]", "flags": [["-c / -x", "create / extract"], ["-z / -J", "gzip / xz compression"], ["-v", "verbose"], ["-f file", "archive filename"], ["-t", "list contents"]], "ex": ["sudo tar -czvf case01-logs.tar.gz /var/log/auth.log /var/log/syslog", "tar -tzvf case01-logs.tar.gz"]}, "base64": {"desc": "Encodes or decodes data in Base64 text form.", "syntax": "base64 [options] [file]", "flags": [["-d", "decode"], ["-w 0", "no line wrapping"]], "ex": ["echo -n 'hello lab' | base64", "echo 'aGVsbG8gbGFi' | base64 -d"]}, "sha256sum": {"desc": "Computes and verifies SHA-256 cryptographic hashes.", "syntax": "sha256sum [options] file", "flags": [["-c file", "check hashes listed in a file"], ["--quiet", "only report failures"], ["md5sum / sha1sum", "older (weaker) siblings"]], "ex": ["sha256sum case01-logs.tar.gz | tee case01.sha256", "sha256sum -c case01.sha256", "echo ' ' >> case01-logs.tar.gz && sha256sum -c case01.sha256"]}, "openssl": {"desc": "A toolkit for TLS, certificates, hashing and encryption.", "syntax": "openssl [command] [options]", "flags": [["s_client -connect", "inspect a server's TLS"], ["x509 -text", "read certificate details"], ["rand -hex N", "generate random bytes"], ["enc -aes-256-cbc", "encrypt a file"]], "ex": ["echo | openssl s_client -connect example.com:443 2>/dev/null | openssl x509 -noout -dates", "openssl rand -hex 16"]}}}</script><script>(() => {
+  const D = JSON.parse(document.getElementById("sim-data").textContent);
+  const RM = matchMedia("(prefers-reduced-motion: reduce)");
+  const slides = [...document.querySelectorAll(".slide")];
+  const root = document.documentElement;
+  root.classList.add("deck");
+
+  // Slides are authored at 1280x720; one scaled stage keeps every slide pixel-identical to the PDF.
+  const stage = document.createElement("div");
+  stage.className = "stage";
+  slides[0].before(stage);
+  slides.forEach((s) => stage.append(s));
+  const fit = () => stage.style.setProperty("--s", Math.min(innerWidth / 1280, innerHeight / 720));
+  addEventListener("resize", fit);
+  fit();
+
+  // ---------- Controls ----------
+  document.body.insertAdjacentHTML("beforeend", `
+    <div class="progress" aria-hidden="true"><i></i></div>
+    <nav class="deck-ui" aria-label="Slide controls">
+      <button type="button" data-go="-1" aria-label="Previous slide">‹</button>
+      <span aria-live="polite"></span>
+      <button type="button" data-go="1" aria-label="Next slide">›</button>
+      <button type="button" data-fs aria-label="Toggle fullscreen">⛶</button>
+    </nav>
+    <div class="toast" role="status"><kbd>←</kbd> <kbd>→</kbd> or click / scroll to move · click a terminal to type commands · <kbd>F</kbd> fullscreen</div>`);
+  const counter = document.querySelector(".deck-ui span");
+  const bar = document.querySelector(".progress i");
+  const toast = document.querySelector(".toast");
+  setTimeout(() => toast.classList.add("gone"), 5000);
+
+  const fullscreen = () => {
+    if (document.fullscreenElement) document.exitFullscreen().catch(() => {});
+    else root.requestFullscreen?.().catch(() => {});
+  };
+  document.querySelector(".deck-ui").addEventListener("click", (e) => {
+    const b = e.target.closest("button");
+    if (!b) return;
+    if (b.hasAttribute("data-fs")) fullscreen();
+    else go(cur + Number(b.dataset.go));
+  });
+
+  // ---------- Navigation ----------
+  let cur = Math.min(Math.max((parseInt(location.hash.slice(1), 10) || 1) - 1, 0), slides.length - 1);
+  let running = [];
+  const EASE_IN = "cubic-bezier(.16,1,.3,1)", EASE_OUT = "cubic-bezier(.4,0,.2,1)";
+
+  function paint() {
+    slides.forEach((s, i) => { s.classList.toggle("on", i === cur); s.inert = i !== cur; });
+    counter.textContent = `${cur + 1} / ${slides.length}`;
+    bar.style.width = `${((cur + 1) / slides.length) * 100}%`;
+    history.replaceState(null, "", `#${cur + 1}`);
+  }
+
+  function entrance(slide) {
+    const parts = slide.querySelectorAll(".kicker, h1, h2, .desc, .syn, .flags tr, .use, .sub, .meta, .ag, .big li, .task, .term");
+    parts.forEach((el, i) => running.push(el.animate(
+      [{ opacity: 0, transform: "translateY(16px)" }, { opacity: 1, transform: "none" }],
+      { duration: 520, delay: 90 + i * 38, easing: EASE_IN, fill: "backwards" })));
+    [...slide.querySelectorAll(".screen .ln")].slice(0, 24).forEach((el, i) => running.push(el.animate(
+      [{ opacity: 0, transform: "translateX(-6px)" }, { opacity: 1, transform: "none" }],
+      { duration: 280, delay: 320 + i * 32, easing: "ease-out", fill: "backwards" })));
+  }
+
+  function go(n) {
+    n = Math.min(Math.max(n, 0), slides.length - 1);
+    if (n === cur) return;
+    running.forEach((a) => a.finish());
+    running = [];
+    const dir = n > cur ? 1 : -1, from = slides[cur], to = slides[n];
+    if (document.activeElement && from.contains(document.activeElement)) document.activeElement.blur();
+    cur = n;
+    paint();
+    if (RM.matches) return;
+    from.classList.add("out");
+    const out = from.animate(
+      [{ opacity: 1, transform: "none" }, { opacity: 0, transform: `translateX(${-dir * 6}%) scale(.94)` }],
+      { duration: 480, easing: EASE_OUT });
+    out.finished.catch(() => {}).finally(() => from.classList.remove("out"));
+    running.push(out, to.animate(
+      [{ opacity: 0, transform: `translateX(${dir * 9}%) scale(1.03)` }, { opacity: 1, transform: "none" }],
+      { duration: 640, easing: EASE_IN }));
+    entrance(to);
+  }
+
+  addEventListener("keydown", (e) => {
+    if (e.target.classList?.contains("sim-in")) {
+      if (e.key === "PageDown") { e.preventDefault(); go(cur + 1); }
+      if (e.key === "PageUp") { e.preventDefault(); go(cur - 1); }
+      return;
+    }
+    if (e.target.closest?.("button") && (e.key === " " || e.key === "Enter")) return;
+    if (e.altKey || e.ctrlKey || e.metaKey) return;
+    const k = e.key;
+    if (["ArrowRight", "ArrowDown", "PageDown", " "].includes(k)) { e.preventDefault(); go(cur + 1); }
+    else if (["ArrowLeft", "ArrowUp", "PageUp"].includes(k)) { e.preventDefault(); go(cur - 1); }
+    else if (k === "Home") go(0);
+    else if (k === "End") go(slides.length - 1);
+    else if (k === "f" || k === "F") fullscreen();
+  });
+
+  // Click: left quarter goes back, anywhere else goes forward. Interactive bits keep their own clicks.
+  stage.addEventListener("click", (e) => {
+    if (e.target.closest(".term, .chips, button, a, input")) return;
+    if (String(getSelection())) return;
+    go(e.clientX < innerWidth / 4 ? cur - 1 : cur + 1);
+  });
+
+  let wheelSum = 0, wheelLock = 0;
+  addEventListener("wheel", (e) => {
+    const scr = e.target.closest?.(".screen");
+    if (scr && scr.scrollHeight > scr.clientHeight) return; // let a long terminal scroll
+    if (Date.now() < wheelLock) return;
+    wheelSum += e.deltaY || e.deltaX;
+    if (Math.abs(wheelSum) > 40) {
+      go(cur + Math.sign(wheelSum));
+      wheelSum = 0;
+      wheelLock = Date.now() + 700;
+    }
+  }, { passive: true });
+
+  let tx = null;
+  addEventListener("touchstart", (e) => { tx = e.touches[0].clientX; }, { passive: true });
+  addEventListener("touchend", (e) => {
+    if (tx === null) return;
+    const dx = e.changedTouches[0].clientX - tx;
+    tx = null;
+    if (Math.abs(dx) > 50) go(cur + (dx < 0 ? 1 : -1));
+  }, { passive: true });
+
+  addEventListener("hashchange", () => go((parseInt(location.hash.slice(1), 10) || 1) - 1));
+
+  // ---------- Terminal simulator ----------
+  const key = (s) => s.trim().replace(/\s+/g, " ").replace(/"/g, "'");
+  const GLOBAL = new Map();
+  D.sims.forEach((sim) => sim.ex.forEach(([c, out]) => { if (!GLOBAL.has(key(c))) GLOBAL.set(key(c), out); }));
+
+  document.querySelectorAll(".term[data-sim]").forEach((term) => {
+    const sim = D.sims[Number(term.dataset.sim)];
+    const local = new Map(sim.ex.map(([c, out]) => [key(c), out]));
+    const screen = term.querySelector(".screen");
+    const live = screen.querySelector(".ln.live");
+    const pc = live.querySelector(".pc");
+    const label = sim.cmd ? `Terminal simulator for ${sim.cmd}` : "Terminal simulator";
+    live.insertAdjacentHTML("beforeend", `<input class="sim-in" type="text" spellcheck="false" autocomplete="off" autocapitalize="off" aria-label="${label}">`);
+    const input = live.querySelector(".sim-in");
+    term.querySelector(".bar").insertAdjacentHTML("beforeend", '<em class="hint">click to type · help · Esc to leave</em>');
+    term.addEventListener("click", () => { if (!String(getSelection())) input.focus({ preventScroll: true }); });
+
+    const hist = [];
+    let hi = 0, cwd = "~", oldCwd = "~", typing = false, tabIdx = 0;
+
+    const line = (text, cls) => {
+      const d = document.createElement("div");
+      d.className = "ln" + (cls ? " " + cls : "") + (text.startsWith("# ") && !cls ? " co" : "");
+      d.textContent = text || " ";
+      live.before(d);
+    };
+    const echo = (cmd) => {
+      const d = document.createElement("div");
+      d.className = "ln";
+      d.innerHTML = '<span class="pr">kali@kali</span><span class="pc"></span> <span class="cm"></span>';
+      d.querySelector(".pc").textContent = `:${cwd}$`;
+      d.querySelector(".cm").textContent = cmd;
+      live.before(d);
+    };
+    const examples = (list, head) => {
+      line(head, "tip");
+      list.slice(0, 4).forEach((c) => line("  " + c, "tip"));
+    };
+    const resolve = (p) => {
+      const home = "/home/kali";
+      let base = cwd === "~" ? home : cwd;
+      if (!p || p === "~") return home;
+      if (p.startsWith("~")) p = home + p.slice(1);
+      const parts = (p.startsWith("/") ? [] : base.split("/").filter(Boolean));
+      p.split("/").filter(Boolean).forEach((seg) => { if (seg === "..") parts.pop(); else if (seg !== ".") parts.push(seg); });
+      return "/" + parts.join("/");
+    };
+    const show = (p) => (p === "/home/kali" ? "~" : p.startsWith("/home/kali/") ? "~" + p.slice(10) : p);
+
+    function run(raw) {
+      const cmd = raw.trim().replace(/\s+/g, " ");
+      echo(raw);
+      if (!cmd) return;
+      hist.push(cmd);
+      hi = hist.length;
+      const [w0, ...rest] = cmd.split(" ");
+
+      if (w0 === "clear") { [...screen.querySelectorAll(".ln:not(.live)")].forEach((n) => n.remove()); return; }
+      if (w0 === "help") {
+        ["Simulator commands:",
+         "  hint            example commands for this slide",
+         "  man <cmd>       quick reference for any of the 50 commands",
+         "  <cmd> --help    same as man",
+         "  history / clear",
+         "Keys: Tab completes · ↑/↓ history · Esc leaves the terminal"].forEach((t) => line(t, "tip"));
+        return;
+      }
+      if (w0 === "hint" || w0 === "examples") {
+        if (sim.ex.length) examples(sim.ex.map((x) => x[0]), "Try typing one of these:");
+        else line("No examples on this slide. Type help.", "tip");
+        return;
+      }
+      if (w0 === "history") { hist.forEach((h, i) => line(`${String(i + 1).padStart(5)}  ${h}`)); return; }
+      if (w0 === "exit" || w0 === "logout") { line("# This is a simulator: press Esc, then → for the next slide."); return; }
+      const helpTarget = w0 === "man" ? rest[0] : (rest.includes("--help") ? w0 : null);
+      if (helpTarget !== null && helpTarget !== undefined) {
+        const info = D.info[helpTarget];
+        if (!info) { line(`No manual entry for ${helpTarget}`, "err"); return; }
+        line("NAME"); line(`       ${helpTarget} - ${info.desc}`);
+        line("SYNOPSIS"); line(`       ${info.syntax}`);
+        line("OPTIONS");
+        info.flags.forEach(([f, m]) => line(`       ${f.padEnd(14)} ${m}`));
+        return;
+      }
+      if (w0 === "man") { line("What manual page do you want? Try: man " + (sim.cmd || "grep"), "err"); return; }
+      if (w0 === "cd" && !cmd.includes("&&")) {
+        const target = rest[0] === "-" ? (oldCwd === "~" ? "/home/kali" : oldCwd) : resolve(rest[0]);
+        if (rest[0] === "-") line(target);
+        oldCwd = cwd;
+        cwd = show(target);
+        pc.textContent = `:${cwd}$`;
+        return;
+      }
+      if (cmd === "pwd") { line(resolve(".")); return; }
+
+      const k = key(cmd);
+      const alt = k.startsWith("sudo ") ? k.slice(5) : "sudo " + k;
+      const out = local.get(k) ?? local.get(alt) ?? GLOBAL.get(k) ?? GLOBAL.get(alt);
+      if (out) { out.forEach((t) => line(t)); return; }
+
+      if (w0 === "whoami") { line("kali"); return; }
+      if (w0 === "echo") { line(rest.join(" ").replace(/^(['"])(.*)\1$/, "$2")); return; }
+      if (w0 === "date") { line(new Date().toString()); return; }
+      if (cmd === "ls") { line("Desktop  Documents  Downloads  case01  lab-tmp  quarantine  scripts"); return; }
+
+      const name = w0 === "sudo" ? rest[0] : w0;
+      if (D.info[name]) {
+        line(`[simulator] '${cmd}' isn't in this lab's recorded output.`, "tip");
+        examples(D.info[name].ex, `Recorded examples for ${name}:`);
+        return;
+      }
+      line(`zsh: command not found: ${w0}`, "err");
+    }
+
+    const scroll = () => { screen.scrollTop = screen.scrollHeight; };
+    input.addEventListener("keydown", (e) => {
+      if (typing) { e.preventDefault(); return; }
+      if (e.key === "Enter") { run(input.value); input.value = ""; tabIdx = 0; scroll(); }
+      else if (e.key === "Escape") input.blur();
+      else if (e.key === "ArrowUp" && hist.length) { e.preventDefault(); hi = Math.max(0, hi - 1); input.value = hist[hi]; }
+      else if (e.key === "ArrowDown") { e.preventDefault(); hi = Math.min(hist.length, hi + 1); input.value = hist[hi] ?? ""; }
+      else if (e.key === "Tab" && input.value) {
+        // Only intercept Tab when there is something to complete, so keyboard users are never trapped.
+        const matches = sim.ex.map((x) => x[0]).filter((c) => c.startsWith(input.value) && c !== input.value);
+        if (matches.length) { e.preventDefault(); input.value = matches[tabIdx++ % matches.length]; }
+      } else if (e.key === "l" && e.ctrlKey) { e.preventDefault(); run("clear"); }
+    });
+
+    const typeRun = async (cmd) => {
+      if (typing) return;
+      input.focus({ preventScroll: true });
+      if (!RM.matches) {
+        typing = true;
+        input.value = "";
+        for (const ch of cmd) { input.value += ch; await new Promise((r) => setTimeout(r, 22)); }
+        await new Promise((r) => setTimeout(r, 180));
+        typing = false;
+      }
+      run(cmd);
+      input.value = "";
+      scroll();
+    };
+
+    // "Try" buttons under the practice task
+    const task = term.closest(".slide").querySelector(".task");
+    if (task && sim.ex.length) {
+      const chips = document.createElement("div");
+      chips.className = "chips";
+      sim.ex.slice(0, 3).forEach(([c]) => {
+        const b = document.createElement("button");
+        b.type = "button";
+        b.textContent = c;
+        b.title = `Run in the terminal: ${c}`;
+        b.addEventListener("click", () => typeRun(c));
+        chips.append(b);
+      });
+      task.append(chips);
+    }
+  });
+
+  paint();
+})();
+</script>
+</body></html>
